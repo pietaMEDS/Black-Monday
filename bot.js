@@ -11,5 +11,8 @@ vk.updates.on('message_new', bot.middleware)
 
 console.log('Бот запущен!!');
 
+bot.hear(/w/i, msg =>{
+    msg.send('Тест пройден!');
+})
 
 vk.updates.start().catch(console.error);
