@@ -11,7 +11,7 @@ vk.updates.on('message_new', bot.middleware)
 
 export { bot, vk };
 
-console.log('Бот запущен!!');
+// console.log('Бот запущен!!');
 
 
 vk.updates.start().catch(console.error);
