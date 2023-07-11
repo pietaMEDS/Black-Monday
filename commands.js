@@ -7,11 +7,12 @@ const vk = new VK({
 })
 const bot = new HearManager();
 
-vk.updates.on('message_new', bot.middleware)
-
-const commands = require('./commands');
-
-console.log('Бот запущен!!');
-vk.updates.start().catch(console.error);
-
 vk.updates.on('message_new', bot.middleware);
+
+bot.hear(/Привет/i, msg => {
+    msg.send(`Привет, я работаю`);    
+});
+
+// vk.updates.on(
+
+// )
