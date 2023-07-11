@@ -9,7 +9,9 @@ const bot = new HearManager();
 
 vk.updates.on('message_new', bot.middleware)
 
-const commands = require('./commands');
+export { bot, vk };
 
 console.log('Бот запущен!!');
+
+
 vk.updates.start().catch(console.error);
