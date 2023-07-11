@@ -16,3 +16,4 @@ bot.hear(/Привет/i, msg => {
 console.log('Бот запущен!!');
 vk.updates.start().catch(console.error);
 
+//3213213
