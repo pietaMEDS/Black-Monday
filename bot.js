@@ -13,5 +13,3 @@ const commands = require('./commands');
 
 console.log('Бот запущен!!');
 vk.updates.start().catch(console.error);
-
-vk.updates.on('message_new', bot.middleware);

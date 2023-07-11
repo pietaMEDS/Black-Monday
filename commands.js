@@ -7,9 +7,14 @@ const vk = new VK({
 })
 const bot = new HearManager();
 
-vk.updates.on('message_new', bot.middleware);
-
-bot.hear(/Привет/i, msg => {
-    msg.send(`Привет, я работаю`);    
+bot.hear(/test/i, msg => {
+    msg.send(`test`);    
 });
 
+bot.hear(/Привет/i, msg => {
+    msg.send(`Привет, я d blya работаю`);    
+});
+
+bot.hear(/w/i, msg => {
+    msg.send(`Владос пидорас`);    
+});
