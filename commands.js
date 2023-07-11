@@ -13,6 +13,3 @@ bot.hear(/Привет/i, msg => {
     msg.send(`Привет, я работаю`);    
 });
 
-// vk.updates.on(
-
-// )
