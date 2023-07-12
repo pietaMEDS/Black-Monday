@@ -9,46 +9,48 @@ const vk = new VK({
 })
 const bot = new HearManager();
 
-vk.updates.on('message_new', bot.middleware)
 
-// vk.updates.on('message_new', (context, next) => {
-// 	const { messagePayload } = context;
+vk.updates.on('message_new', bot.middleware, (context, next) => {
+	const { messagePayload } = context;
 
-// 	context.state.command = messagePayload && messagePayload.command
-// 		? messagePayload.command
-// 		: null;
-//     console.log('"' + context.text + '"' +' by ' + context.$groupId);
-//     console.log(context);
-//     cmds.textToArray(context);
-// 	return next();
-// });
+	context.state.command = messagePayload && messagePayload.command
+		? messagePayload.command
+		: null;
+    console.log('"' + context.text + '"' +' by ' + context.$groupId);
+    console.log(context);
+    cmds.textToArray(context);
+	return next();
+});
 
-bot.hear(/обычные/i, msg => {
+bot.hear(/callback/i, msg => {
 	let keyboard = Keyboard
 	.keyboard([[
-		Keyboard.textButton({
+		Keyboard.callbackButton({
 			label: 'Красная кнопка',
 			color: 'negative'
 		}),
-		Keyboard.textButton({
-			label: 'Green btn',
+		Keyboard.callbackButton({
+			label: 'Зеленая кнопка',
 			color: 'positive'
 		})
 	],
 	[
-		Keyboard.textButton({
+		Keyboard.callbackButton({
 			label: 'Синяя',
 			color: 'primary'
 		}),
-		Keyboard.textButton({
+		Keyboard.callbackButton({
 			label: 'Серая',
 			color: 'secondary'
 		})
-	]]);
-	msg.send({ message: 'Обычная клавиатура', keyboard: keyboard, random_id: getRandomId() })
+	]])
+	msg.send({ message: 'Callback клавиатура', keyboard: keyboard, random_id: getRandomId() })
 })
 
+vk.updates.on('message_event', msg => {
+	vk.api.messages.send({ message: `Была нажата кнопка`, peer_id: msg.peerId, random_id: getRandomId() })
+})
 
 console.log('Бот запущен!!');
-vk.updates.start()//.catch(console.error);
+vk.updates.start().catch(console.error);
 
