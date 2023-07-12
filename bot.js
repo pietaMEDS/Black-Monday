@@ -19,12 +19,57 @@ vk.updates.on('message_event', msg => {
 	vk.api.messages.send({ message: `Была нажата кнопка`, peer_id: msg.peerId, random_id: getRandomId() })
 })
 
-bot.hear(/hello/i, msg=>{
-	cmds.hello(msg);
+bot.hear(/callback/i, msg => {
+	let keyboard = Keyboard
+	.keyboard([[
+		Keyboard.callbackButton({
+			label: 'Красная кнопка',
+			color: 'negative',
+			payload: {
+				id: msg.senderId,
+				button: 'Красная'
+			},
+			callback_data: 'test'
+		}),
+		Keyboard.callbackButton({
+			label: 'Зеленая кнопка',
+			color: 'positive',
+			payload: {
+				id: msg.senderId,
+				button: 'Зеленая'
+			},
+			callback_data: 'test'
+		})
+	],
+	[
+		Keyboard.callbackButton({
+			label: 'Синяя',
+			color: 'primary',
+			payload: {
+				id: msg.senderId,
+				button: 'Синяя'
+			},
+			callback_data: 'test'
+		}),
+		Keyboard.callbackButton({
+			label: 'Серая',
+			color: 'secondary',
+			payload: {
+				id: msg.senderId,
+				button: 'Серая'
+			},
+			callback_data: 'test'
+		})
+		
+	]])
+	msg.send({ message: 'Callback клавиатура', keyboard: keyboard, random_id: getRandomId() })
 })
-bot.hear(/w/i, msg=>{
-	cmds.CallBoard(msg);
+
+vk.updates.on('message_event', msg => {
+	const button = msg.eventPayload.button;
+	vk.api.messages.send({ message: `Была нажата ${button} кнопка`, peer_id: msg.peerId, random_id: getRandomId() })
 })
+
 
 service.startPolling((err) => {
     if (err) {

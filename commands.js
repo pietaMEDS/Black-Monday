@@ -29,8 +29,8 @@ function textToArray(msg){
     findCommand(textArray[0], msg)
 }
 
-function findCommand(msg){
-    switch (msg.toLowerCase()) {
+function findCommand(cmd, msg){
+    switch (cmd.toLowerCase()) {
         case 'привет':
             hello(msg);
             break;
@@ -52,4 +52,4 @@ service.startPolling((err) => {
   });
 vk.updates.start().catch(console.error);
 
-console.log('Бот запущен!!');
+console.log('Сервис запущен!!');
