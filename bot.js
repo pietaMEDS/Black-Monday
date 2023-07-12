@@ -1,4 +1,4 @@
-const { VK, Keyboard, KeyboardBuilder } = require('vk-io');
+const { VK, Keyboard, keyboardBuilder, getRandomId } = require('vk-io');
 
 const { HearManager } = require('@vk-io/hear');
 
@@ -17,6 +17,9 @@ vk.updates.on('message_new', (context, next) => {
 		: null;
     console.log('"' + context.text + '"' +' by ' + context.senderId.toString());
     // cmds.textToArray(context);
+    console.log('"' + context.text + '"' +' by ' + context.$groupId);
+    console.log(context);
+    cmds.textToArray(context);
 	return next();
 });
 
@@ -24,6 +27,31 @@ bot.hear(/stoprequest/i, msg =>{
     vk.updates.stop();
 })
 
+
+bot.hear(/обычные/i, msg => {
+	let keyboard = Keyboard
+	.keyboard([[
+		Keyboard.textButton({
+			label: 'Красная кнопка',
+			color: 'negative'
+		}),
+		Keyboard.textButton({
+			label: 'Green btn',
+			color: 'positive'
+		})
+	],
+	[
+		Keyboard.textButton({
+			label: 'Синяя',
+			color: 'primary'
+		}),
+		Keyboard.textButton({
+			label: 'Серая',
+			color: 'secondary'
+		})
+	]]);
+	msg.send({ message: 'Обычная клавиатура', keyboard: keyboard, random_id: getRandomId() })
+})
 
 vk.updates.start().catch(console.error);
 
