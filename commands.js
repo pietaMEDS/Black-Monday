@@ -26,9 +26,9 @@ function FindCommand(cmd, msg) {
                 hello(msg);
                 break;
 
-            // case 'обычные':
-            //     NormalKeyboard(msg);
-            //     break;
+            case 'callback':
+                CallBoard(msg);
+                break;
         
             default:
                 console.log('%cWarning: Команда не найдена', 'color:orange');
@@ -40,3 +40,33 @@ function hello(msg) {
     msg.send('Привет, |имя| рад тебя видеть');
 }
 
+
+function CallBoard(msg){
+	let keyboard = Keyboard
+	.keyboard([[
+		Keyboard.callbackButton({
+			label: 'Красная кнопка',
+			color: 'negative'
+		}),
+		Keyboard.callbackButton({
+			label: 'Зеленая кнопка',
+			color: 'positive'
+		})
+	],
+	[
+		Keyboard.callbackButton({
+			label: 'Синяя',
+			color: 'primary'
+		}),
+		Keyboard.callbackButton({
+			label: 'Серая',
+			color: 'secondary'
+		})
+	]])
+	msg.send({ message: 'Callback клавиатура', keyboard: keyboard, random_id: getRandomId() })
+}
+
+
+vk.updates.on('message_event', msg => {
+	vk.api.messages.send({ message: `Была нажата кнопка`, peer_id: msg.peerId, random_id: getRandomId() })
+})
