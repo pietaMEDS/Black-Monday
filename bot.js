@@ -9,18 +9,18 @@ const vk = new VK({
 })
 const bot = new HearManager();
 
-vk.updates.on('message_new', bot.middleware)
-
+vk.updates.on('message_new', (context, next) => {
+	const { messagePayload } = context;
 	context.state.command = messagePayload && messagePayload.command
 		? messagePayload.command
 		: null;
     console.log('"' + context.text + '"' +' by ' + context.senderId.toString());
-    // cmds.textToArray(context);
-    console.log('"' + context.text + '"' +' by ' + context.$groupId);
-    console.log(context);
     cmds.textToArray(context);
+    console.log(context);
 	return next();
 });
+
+console.log(vk.api.groups.get());
 
 bot.hear(/stoprequest/i, msg =>{
     vk.updates.stop();
@@ -52,6 +52,7 @@ bot.hear(/обычные/i, msg => {
 	msg.send({ message: 'Обычная клавиатура', keyboard: keyboard, random_id: getRandomId() })
 })
 
+vk.updates.start().catch(console.error);
 
 console.log('Бот запущен!!');
 

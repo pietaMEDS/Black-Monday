@@ -7,13 +7,26 @@ const vk = new VK({
 })
 const bot = new HearManager();
 
-
-
 module.exports = {
     textToArray(msg){
         let textArray = msg.text.split(' ');
-        console.log(textArray);
-
+        FindCommand(textArray[0], msg)
     }
+}
+
+function FindCommand(cmd, msg) {
+        switch (cmd.toLowerCase()) {
+            case 'привет':
+                hello(msg);
+                break;
+        
+            default:
+                console.log('%cWarning: Команда не найдена', 'color:orange');
+                break;
+        }
+}
+
+function hello(msg) {
+    msg.send('Привет, |имя| рад тебя видеть');
 }
 
