@@ -13,18 +13,28 @@ const vk = new VK({
 })
 const bot = new HearManager();
 
+vk.updates.on('message_new', bot.middleware);
 
-vk.updates.on('message_new', (context, next) => {
-	const { messagePayload } = context;
+vk.updates.on('message_event', msg => {
+	vk.api.messages.send({ message: `Была нажата кнопка`, peer_id: msg.peerId, random_id: getRandomId() })
+})
 
-	context.state.command = messagePayload && messagePayload.command
-		? messagePayload.command
-		: null;
-    console.log('"' + context.text + '"' +' by ' + context.senderId.toString());
-    cmds.textToArray(context);
-    console.log(context);
-	return next();
-});
+bot.hear(/hello/i, msg=>{
+	cmds.hello(msg);
+})
+bot.hear(/w/i, msg=>{
+	cmds.CallBoard(msg);
+})
+// vk.updates.on('message_new', (context, next) => {
+// 	const { messagePayload } = context;
+
+// 	context.state.command = messagePayload && messagePayload.command
+// 		? messagePayload.command														only for logs, not for functional
+// 		: null;
+//     console.log('"' + context.text + '"' +' by ' + context.senderId.toString());
+//     console.log(context);
+// 	return next();
+// });
 
 service.startPolling((err) => {
     if (err) {
@@ -33,4 +43,4 @@ service.startPolling((err) => {
   });
 vk.updates.start().catch(console.error);
 
-console.log('Бот запущен!');
+console.log('Бот запущен!!');
