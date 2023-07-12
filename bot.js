@@ -33,5 +33,4 @@ service.startPolling((err) => {
   });
 vk.updates.start().catch(console.error);
 
-console.log('Бот запущен!!');
-
+console.log('Бот запущен!');
