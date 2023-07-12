@@ -25,16 +25,8 @@ bot.hear(/hello/i, msg=>{
 bot.hear(/w/i, msg=>{
 	cmds.CallBoard(msg);
 })
-// vk.updates.on('message_new', (context, next) => {
-// 	const { messagePayload } = context;
 
-// 	context.state.command = messagePayload && messagePayload.command
-// 		? messagePayload.command														only for logs, not for functional
-// 		: null;
-//     console.log('"' + context.text + '"' +' by ' + context.senderId.toString());
-//     console.log(context);
-// 	return next();
-// });
+
 
 service.startPolling((err) => {
     if (err) {
