@@ -1,4 +1,4 @@
-const { VK, Keyboard, keyboardBuilder, getRandomId } = require('vk-io');
+const { VK, Keyboard, getRandomId } = require('vk-io');
 
 const { HearManager } = require('@vk-io/hear');
 
@@ -13,8 +13,10 @@ const vk = new VK({
 })
 const bot = new HearManager();
 
-vk.updates.on('message_new', (context, next) => {
+
+vk.updates.on('message_new', bot.middleware, (context, next) => {
 	const { messagePayload } = context;
+
 	context.state.command = messagePayload && messagePayload.command
 		? messagePayload.command
 		: null;
@@ -24,10 +26,39 @@ vk.updates.on('message_new', (context, next) => {
 	return next();
 });
 
+bot.hear(/callback/i, msg => {
+	let keyboard = Keyboard
+	.keyboard([[
+		Keyboard.callbackButton({
+			label: 'Красная кнопка',
+			color: 'negative'
+		}),
+		Keyboard.callbackButton({
+			label: 'Зеленая кнопка',
+			color: 'positive'
+		})
+	],
+	[
+		Keyboard.callbackButton({
+			label: 'Синяя',
+			color: 'primary'
+		}),
+		Keyboard.callbackButton({
+			label: 'Серая',
+			color: 'secondary'
+		})
+	]])
+	msg.send({ message: 'Callback клавиатура', keyboard: keyboard, random_id: getRandomId() })
+})
+
+vk.updates.on('message_event', msg => {
+	vk.api.messages.send({ message: `Была нажата кнопка`, peer_id: msg.peerId, random_id: getRandomId() })
+})
+
 service.startPolling((err) => {
-	if (err) {
-	  console.error(err);
-	}
+    if (err) {
+      console.error(err);
+    }
   });
 vk.updates.start().catch(console.error);
 
