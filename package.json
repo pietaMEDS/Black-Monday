@@ -2,5 +2,23 @@
   "dependencies": {
     "@vk-io/hear": "^1.1.1",
     "vk-io": "^4.8.3"
-  }
+  },
+  "name": "botyara",
+  "description": "",
+  "version": "0.1.3",
+  "main": "bot.js",
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pietaMEDS/Botyara.git"
+  },
+  "keywords": [
+    "bot"
+  ],
+  "author": "pieta, vlados",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pietaMEDS/Botyara/issues"
+  },
+  "homepage": "https://github.com/pietaMEDS/Botyara#readme"
 }

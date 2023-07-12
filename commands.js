@@ -8,7 +8,8 @@ const vk = new VK({
 const bot = new HearManager();
 
 module.exports = {
-    test: function(msg) {
-        console.log(msg);
+    textToArray(msg){
+        let textArray = msg.text.split(' ');
+        console.log(textArray);
     }
 }
