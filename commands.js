@@ -7,9 +7,13 @@ const vk = new VK({
 })
 const bot = new HearManager();
 
+
+
 module.exports = {
     textToArray(msg){
         let textArray = msg.text.split(' ');
         console.log(textArray);
+
     }
 }
+

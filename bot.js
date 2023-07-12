@@ -1,4 +1,4 @@
-const { VK, Keyboard } = require('vk-io');
+const { VK, Keyboard, KeyboardBuilder } = require('vk-io');
 
 const { HearManager } = require('@vk-io/hear');
 
@@ -15,11 +15,15 @@ vk.updates.on('message_new', (context, next) => {
 	context.state.command = messagePayload && messagePayload.command
 		? messagePayload.command
 		: null;
-    console.log('"' + context.text + '"' +' by ' + context.$groupId);
-    console.log(context);
-    cmds.textToArray(context);
+    console.log('"' + context.text + '"' +' by ' + context.senderId.toString());
+    // cmds.textToArray(context);
 	return next();
 });
+
+bot.hear(/stoprequest/i, msg =>{
+    vk.updates.stop();
+})
+
 
 vk.updates.start().catch(console.error);
 
