@@ -26,8 +26,6 @@ bot.hear(/w/i, msg=>{
 	cmds.CallBoard(msg);
 })
 
-
-
 service.startPolling((err) => {
     if (err) {
       console.error(err);
