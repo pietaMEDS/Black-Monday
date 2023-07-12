@@ -27,28 +27,51 @@ bot.hear(/callback/i, msg => {
 	.keyboard([[
 		Keyboard.callbackButton({
 			label: 'Красная кнопка',
-			color: 'negative'
+			color: 'negative',
+			payload: {
+				id: msg.senderId,
+				button: 'Красная'
+			},
+			callback_data: 'test'
 		}),
 		Keyboard.callbackButton({
 			label: 'Зеленая кнопка',
-			color: 'positive'
+			color: 'positive',
+			payload: {
+				id: msg.senderId,
+				button: 'Зеленая'
+			},
+			callback_data: 'test'
 		})
 	],
 	[
 		Keyboard.callbackButton({
 			label: 'Синяя',
-			color: 'primary'
+			color: 'primary',
+			payload: {
+				id: msg.senderId,
+				button: 'Синяя'
+			},
+			callback_data: 'test'
 		}),
 		Keyboard.callbackButton({
 			label: 'Серая',
-			color: 'secondary'
+			color: 'secondary',
+			payload: {
+				id: msg.senderId,
+				button: 'Серая'
+			},
+			callback_data: 'test'
 		})
+		
 	]])
 	msg.send({ message: 'Callback клавиатура', keyboard: keyboard, random_id: getRandomId() })
 })
 
 vk.updates.on('message_event', msg => {
-	vk.api.messages.send({ message: `Была нажата кнопка`, peer_id: msg.peerId, random_id: getRandomId() })
+	const button = msg.eventPayload.button;
+	vk.api.messages.send({ message: `Была нажата ${button} кнопка`, peer_id: msg.peerId, random_id: getRandomId() })
+	console.log(msg)
 })
 
 console.log('Бот запущен!!');
