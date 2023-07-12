@@ -13,29 +13,18 @@ const vk = new VK({
 })
 const bot = new HearManager();
 
-vk.updates.on('message_new', bot.middleware);
 
-vk.updates.on('message_event', msg => {
-	vk.api.messages.send({ message: `Была нажата кнопка`, peer_id: msg.peerId, random_id: getRandomId() })
-})
 
-bot.hear(/hello/i, msg=>{
-	cmds.hello(msg);
-})
-bot.hear(/w/i, msg=>{
-	cmds.CallBoard(msg);
-})
-// vk.updates.on('message_new', (context, next) => {
-// 	const { messagePayload } = context;
+vk.updates.on('message_new', bot.middleware, (context, next) => {
+	const { messagePayload } = context;
 
-// 	context.state.command = messagePayload && messagePayload.command
-// 		? messagePayload.command														only for logs, not for functional
-// 		: null;
-//     console.log('"' + context.text + '"' +' by ' + context.senderId.toString());
-//     console.log(context);
-// 	return next();
-// });
-
+	context.state.command = messagePayload && messagePayload.command
+		? messagePayload.command
+		: null;
+    console.log('"' + context.text + '"' +' by ' + context.senderId.toString());
+    console.log(context);
+	return next();
+});
 
 bot.hear(/callback/i, msg => {
 	let keyboard = Keyboard
@@ -86,17 +75,13 @@ bot.hear(/callback/i, msg => {
 vk.updates.on('message_event', msg => {
 	const button = msg.eventPayload.button;
 	vk.api.messages.send({ message: `Была нажата ${button} кнопка`, peer_id: msg.peerId, random_id: getRandomId() })
-	console.log(msg)
 })
-
-
 
 service.startPolling((err) => {
     if (err) {
       console.error(err);
     }
   });
-
 vk.updates.start().catch(console.error);
 
 console.log('Бот запущен!!');
