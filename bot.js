@@ -70,6 +70,10 @@ vk.updates.on('message_event', msg => {
 	vk.api.messages.send({ message: `Была нажата ${button} кнопка`, peer_id: msg.peerId, random_id: getRandomId() })
 })
 
+bot.hear('stoprequest', msg=>{
+	vk.updates.stop();
+    service.stop();
+});
 
 service.startPolling((err) => {
     if (err) {
@@ -77,5 +81,7 @@ service.startPolling((err) => {
     }
   });
 vk.updates.start().catch(console.error);
+
+
 
 console.log('Бот запущен!!');
