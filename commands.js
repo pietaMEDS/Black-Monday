@@ -2,70 +2,60 @@ const { VK, Keyboard, getRandomId } = require('vk-io');
 
 const { HearManager } = require('@vk-io/hear');
 
+const VkBot = require('node-vk-bot-api');
+
+const service = new VkBot('vk1.a.R02T_0UFLYce8ahpwPKlwHGBHQvfWCLzWL2wPxvOTL5NzBGGBkKmR_z4oLaOZ4io4T0_1Wxt_PfYYJXZ_LnKpZ0Fzt2JHktQbDqpXZM8PFsDlhK7Y8MDdqVzXSlmTU77FAs0zY9HXV86vSfy1gixQrBh0fYSUS0tXl-p4hRFYBcpTZTehtYMUrLRo1xQBBMiha4uAYu8CsEyAvOCSJsNoQ');
+
 const vk = new VK({
     token: 'vk1.a.R02T_0UFLYce8ahpwPKlwHGBHQvfWCLzWL2wPxvOTL5NzBGGBkKmR_z4oLaOZ4io4T0_1Wxt_PfYYJXZ_LnKpZ0Fzt2JHktQbDqpXZM8PFsDlhK7Y8MDdqVzXSlmTU77FAs0zY9HXV86vSfy1gixQrBh0fYSUS0tXl-p4hRFYBcpTZTehtYMUrLRo1xQBBMiha4uAYu8CsEyAvOCSJsNoQ'
 })
 const bot = new HearManager();
 
+vk.updates.on('message_new', (context, next) => {
+	const { messagePayload } = context;
+	context.state.command = messagePayload && messagePayload.command
+		? messagePayload.command
+		: null;
+    console.log('"' + context.text + '"' +' by ' + context.senderId.toString());
+    textToArray(context);
+	return next();
+});
 
-    function hello(msg){
-        msg.send('i am working');
+function textToArray(msg){
+    let textArray = msg.text.split(' ');
+    findCommand(textArray[0], msg)
+}
+
+function findCommand(cmd, msg){
+    switch (cmd.toLowerCase()) {
+        case 'привет':
+            hello(msg);
+            break;
+
+            case 'stoprequest':
+            stoprequest();
+            break;
+
+        default:
+            console.log('%cWarning: Команда не найдена', 'color:orange');
+            break;
     }
+}
 
+function hello(msg){
+    msg.send('hi');
+}
 
+service.startPolling((err) => {
+    if (err) {
+      console.error(err);
+    }
+  });
 
+  function stoprequest(){
+    vk.updates.stop();
+    service.stop();
+  }
+vk.updates.start().catch(console.error);
 
-
-// module.exports={
-//     CallBoard(msg){
-
-//         let keyboard = Keyboard
-//         .keyboard([[
-//             Keyboard.callbackButton({
-//                 label: 'Красная кнопка',
-//                 color: 'negative',
-// 				payload: {
-// 				id: msg.senderId,
-// 				button: 'Красная'
-// 			},
-// 			callback_data: 'test'
-//             }),
-//             Keyboard.callbackButton({
-//                 label: 'Зеленая кнопка',
-//                 color: 'positive',
-// 				payload: {
-// 				id: msg.senderId,
-// 				button: 'Красная'
-// 			},
-// 			callback_data: 'test'
-//             })
-//         ],
-//         [
-//             Keyboard.callbackButton({
-//                 label: 'Синяя',
-//                 color: 'primary',
-// 				payload: {
-// 				id: msg.senderId,
-// 				button: 'Красная'
-// 			},
-// 			callback_data: 'test'
-//             }),
-//             Keyboard.callbackButton({
-//                 label: 'Серая',
-//                 color: 'secondary',
-// 				payload: {
-// 				id: msg.senderId,
-// 				button: 'Красная'
-// 			},
-// 			callback_data: 'test'
-//             })
-//         ]])
-//         msg.send({ message: 'Callback клавиатура', keyboard: keyboard, random_id: getRandomId() });
-//     }
-// }
-
-
-// vk.updates.on('message_event', msg => {
-// 	const button = msg.eventPayload.button;
-//     vk.api.messages.send({ message: `Была нажата ${button} кнопка`, peer_id: msg.peerId, random_id: getRandomId() })
-// })
+console.log('Сервис запущен!!');
