@@ -11,8 +11,6 @@ const vk = new VK({
 })
 const bot = new HearManager();
 
-console.log('test12');
-
 vk.updates.on('message_new', (context, next) => {
 	const { messagePayload } = context;
 	context.state.command = messagePayload && messagePayload.command
@@ -20,7 +18,6 @@ vk.updates.on('message_new', (context, next) => {
 		: null;
     console.log('"' + context.text + '"' +' by ' + context.senderId.toString());
     textToArray(context);
-    console.log(context);
 	return next();
 });
 
@@ -33,6 +30,10 @@ function findCommand(cmd, msg){
     switch (cmd.toLowerCase()) {
         case 'привет':
             hello(msg);
+            break;
+
+            case 'stoprequest':
+            stoprequest();
             break;
 
         default:
@@ -50,6 +51,11 @@ service.startPolling((err) => {
       console.error(err);
     }
   });
+
+  function stoprequest(){
+    vk.updates.stop();
+    service.stop();
+  }
 vk.updates.start().catch(console.error);
 
 console.log('Сервис запущен!!');
