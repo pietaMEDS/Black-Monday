@@ -1,10 +1,12 @@
+const data = require('./data.json');
 const { VK, Keyboard, getRandomId } = require('vk-io');
 
 const { HearManager } = require('@vk-io/hear');
 
 const VkBot = require('node-vk-bot-api');
 
-const service = new VkBot('vk1.a.R02T_0UFLYce8ahpwPKlwHGBHQvfWCLzWL2wPxvOTL5NzBGGBkKmR_z4oLaOZ4io4T0_1Wxt_PfYYJXZ_LnKpZ0Fzt2JHktQbDqpXZM8PFsDlhK7Y8MDdqVzXSlmTU77FAs0zY9HXV86vSfy1gixQrBh0fYSUS0tXl-p4hRFYBcpTZTehtYMUrLRo1xQBBMiha4uAYu8CsEyAvOCSJsNoQ');
+
+const service = new VkBot(data.token);
 
 const vk = new VK({
     token: 'vk1.a.R02T_0UFLYce8ahpwPKlwHGBHQvfWCLzWL2wPxvOTL5NzBGGBkKmR_z4oLaOZ4io4T0_1Wxt_PfYYJXZ_LnKpZ0Fzt2JHktQbDqpXZM8PFsDlhK7Y8MDdqVzXSlmTU77FAs0zY9HXV86vSfy1gixQrBh0fYSUS0tXl-p4hRFYBcpTZTehtYMUrLRo1xQBBMiha4uAYu8CsEyAvOCSJsNoQ'
@@ -29,12 +31,15 @@ function textToArray(msg){
 function findCommand(cmd, msg){
     switch (cmd.toLowerCase()) {
         case 'привет':
-            hello(msg);
-            break;
+          hello(msg);
+          break;
 
-            case 'stoprequest':
-            stoprequest();
-            break;
+        case 'cb':
+          console.log('%ccall: CallBackButton', 'color:green')
+
+        case 'stoprequest':
+          stoprequest();
+          break;
 
         default:
             console.log('%cWarning: Команда не найдена', 'color:orange');
@@ -56,6 +61,16 @@ service.startPolling((err) => {
     vk.updates.stop();
     service.stop();
   }
-vk.updates.start().catch(console.error);
 
-console.log('Сервис запущен!!');
+  async function start(){
+    let work = service.startPolling((err) => {
+      if (err) {
+        console.error(err);
+      }
+    });
+    await work;
+    console.log('Сервис запущен!!');
+  } ;
+
+  start()
+
