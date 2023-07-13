@@ -149,13 +149,19 @@ vk.updates.on('message_event', msg => {
 
 bot.hear('stoprequest', msg=>{
 	vk.updates.stop();
-    service.stop();
+  service.stop();
 });
 
 async function start(){
-  let work = vk.updates.start().catch(console.error);
-  await work;
+  let workb = service.startPolling((err) => {
+    if (err) {
+      console.error('BOT Error : ' + err);
+    }
+  });
+  let works = vk.updates.start().catch(console.error);
+  await workb & works;
   console.log('Бот запущен!!');
-} 
+  return workb, works
+} ;
 
 start();

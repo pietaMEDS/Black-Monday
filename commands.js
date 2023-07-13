@@ -58,19 +58,23 @@ service.startPolling((err) => {
   });
 
   function stoprequest(){
+    console.log('%cPROCESS STOPED', 'color:red')
+    err = true;
     vk.updates.stop();
     service.stop();
   }
 
   async function start(){
-    let work = service.startPolling((err) => {
+    let workb = service.startPolling((err) => {
       if (err) {
-        console.error(err);
+        console.error('Service Error : ' + err);
       }
     });
-    await work;
+    let works = vk.updates.start().catch(console.error);
+    await workb & works;
     console.log('Сервис запущен!!');
+    return workb, works
   } ;
 
-  start()
+  start();
 
