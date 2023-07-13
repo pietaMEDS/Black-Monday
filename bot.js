@@ -52,7 +52,7 @@ let keyboard = Keyboard.keyboard([
       callback_data: 'test'
     })
   ]
-]).oneTime();
+]).inlinew();
 
 bot.hear(/cb/i, msg => {
   msg.send({ message: 'Callback клавиатура', keyboard: keyboard, random_id: getRandomId() });
@@ -92,7 +92,7 @@ vk.updates.on('message_event', msg => {
           callback_data: 'test'
         })
       ]
-    ]).oneTime();
+    ]).inline();
 
     if (button === 'Расписание') {
       responseMessage = messageEnter2();
