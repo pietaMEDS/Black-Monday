@@ -1,3 +1,8 @@
+const data = require('./data.json');
+
+// Далее можно использовать переменную `data` для доступа к данным из файла JSON
+console.log(data);
+
 const { VK, Keyboard, getRandomId } = require('vk-io');
 
 const { HearManager } = require('@vk-io/hear');
@@ -52,7 +57,7 @@ let keyboard = Keyboard.keyboard([
       callback_data: 'test'
     })
   ]
-]).inlinew();
+]).inline();
 
 bot.hear(/cb/i, msg => {
   msg.send({ message: 'Callback клавиатура', keyboard: keyboard, random_id: getRandomId() });
