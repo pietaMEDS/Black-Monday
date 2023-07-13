@@ -15,122 +15,113 @@ const bot = new HearManager();
 
 vk.updates.on('message_new', bot.middleware);
 
-vk.updates.on('message_event', msg => {
-	vk.api.messages.send({ message: `Была нажата кнопка`, peer_id: msg.peerId, random_id: getRandomId() })
-})
-
 let keyboard = Keyboard.keyboard([
-	[
-	  Keyboard.callbackButton({
-		label: 'Расписание',
-		color: 'negative',
-		payload: {
-		  button: 'Расписание'
-		},
-		callback_data: 'test'
-	  }),
-	  Keyboard.callbackButton({
-		label: 'Преподаватели',
-		color: 'positive',
-		payload: {
-		  button: 'Преподаватели'
-		},
-		callback_data: 'test'
-	  })
-	],
-	[
-	  Keyboard.callbackButton({
-		label: 'Кабинет',
-		color: 'primary',
-		payload: {
-		  button: 'Кабинет'
-		},
-		callback_data: 'test'
-	  }),
-	  Keyboard.callbackButton({
-		label: 'Справка',
-		color: 'secondary',
-		payload: {
-		  button: 'Справка'
-		},
-		callback_data: 'test'
-	  })
-	]
-  ]).oneTime();
-  
-  bot.hear(/cb/i, msg => {
-	msg.send({ message: 'Callback клавиатура', keyboard: keyboard, random_id: getRandomId() });
-  });
-  
-  function messageEnter() {
-	return 'Выбран кабинет';
+  [
+    Keyboard.callbackButton({
+      label: 'Расписание',
+      color: 'negative',
+      payload: {
+        button: 'Расписание'
+      },
+      callback_data: 'test'
+    }),
+    Keyboard.callbackButton({
+      label: 'Преподаватели',
+      color: 'positive',
+      payload: {
+        button: 'Преподаватели'
+      },
+      callback_data: 'test'
+    })
+  ],
+  [
+    Keyboard.callbackButton({
+      label: 'Кабинет',
+      color: 'primary',
+      payload: {
+        button: 'Кабинет'
+      },
+      callback_data: 'test'
+    }),
+    Keyboard.callbackButton({
+      label: 'Справка',
+      color: 'secondary',
+      payload: {
+        button: 'Справка'
+      },
+      callback_data: 'test'
+    })
+  ]
+]).oneTime();
+
+bot.hear(/cb/i, msg => {
+  msg.send({ message: 'Callback клавиатура', keyboard: keyboard, random_id: getRandomId() });
+});
+
+function messageEnter() {
+  return 'Выбран кабинет';
+}
+
+function messageEnter1() {
+  return 'Справка о программе';
+}
+
+function messageEnter2() {
+  return 'Выбрано расписание';
+}
+
+function messageEnter3() {
+  return 'Выберите преподавателя';
+}
+
+vk.updates.on('message_event', msg => {
+  const button = msg.eventPayload.button;
+
+  let responseMessage;
+  let responseKeyboard;
+
+	if (button !== 'Назад') {
+		responseKeyboard = Keyboard.keyboard([
+		[
+        Keyboard.callbackButton({
+          label: 'Назад',
+          color: 'primary',
+          payload: {
+            button: 'Назад'
+          },
+          callback_data: 'test'
+        })
+      ]
+    ]).oneTime();
+
+    if (button === 'Расписание') {
+      responseMessage = messageEnter2();
+    } else if (button === 'Кабинет') {
+      responseMessage = messageEnter();
+    } else if (button === 'Справка') {
+      responseMessage = messageEnter1();
+    } else {
+      responseMessage = messageEnter3();
+    }
+
+    vk.api.messages.send({
+      message: responseMessage,
+      peer_id: msg.peerId,
+      random_id: getRandomId(),
+      keyboard: responseKeyboard
+    });
+  } else {
+    responseKeyboard = keyboard;
+
+    vk.api.messages.send({
+      message: 'Callback клавиатура',
+      peer_id: msg.peerId,
+      random_id: getRandomId(),
+      keyboard: responseKeyboard
+    });
   }
-  
-  function messageEnter1() {
-	return 'Справка о программе';
-  }
-  
-  function messageEnter2() {
-	return 'Выбрано расписание';
-  }
-  
-  function messageEnter3() {
-	return 'Выберите преподавателя';
-  }
-  
-  vk.updates.on('message_event', msg => {
-	const button = msg.eventPayload.button;
-  
-	let responseMessage;
-	let responseKeyboard;
-  
-	  if (button !== 'Назад') {
-		  responseKeyboard = Keyboard.keyboard([
-		  [
-		  Keyboard.callbackButton({
-			label: 'Назад',
-			color: 'primary',
-			payload: {
-			  button: 'Назад'
-			},
-			callback_data: 'test'
-		  })
-		]
-	  ]).oneTime();
-  
-	  if (button === 'Расписание') {
-		responseMessage = messageEnter2();
-	  } else if (button === 'Кабинет') {
-		responseMessage = messageEnter();
-	  } else if (button === 'Справка') {
-		responseMessage = messageEnter1();
-	  } else {
-		responseMessage = messageEnter3();
-	  }
-  
-	  vk.api.messages.send({
-		message: responseMessage,
-		peer_id: msg.peerId,
-		random_id: getRandomId(),
-		keyboard: responseKeyboard
-	  });
-	} else {
-	  responseKeyboard = keyboard;
-  
-	  vk.api.messages.send({
-		message: 'Callback клавиатура',
-		peer_id: msg.peerId,
-		random_id: getRandomId(),
-		keyboard: responseKeyboard
-	  });
-	}
-  });
-  
-  
-  bot.hear('stoprequest', msg=>{
-	  vk.updates.stop();
-	  service.stop();
-  });
+});
+
 
 bot.hear('stoprequest', msg=>{
 	vk.updates.stop();
