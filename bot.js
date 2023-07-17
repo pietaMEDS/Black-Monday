@@ -17,16 +17,6 @@ const bot = new HearManager();
 
 vk.updates.on('message_new', bot.middleware);
 
-// let wht = Keyboard.keyboard([[
-//   Keyboard.callbackButton({
-//     label: 'test1',
-//     payload:{
-//       button: 'test1'
-//     },
-//     callback_data: 'supertest'
-//   })
-// ]])
-
 const startKeyBoard = Keyboard.keyboard ([
   [
     Keyboard.textButton({
@@ -50,8 +40,8 @@ const startKeyBoard = Keyboard.keyboard ([
   ]
 ])
 
-bot.hear(/kb/i, async(context, next) => {
-    context.send({ message: `Выбрана клавиатура пользователем`, keyboard: startKeyBoard })
+bot.hear(/start/i, async(context, next) => {
+    context.send({ message: `Клавиатура`, keyboard: startKeyBoard })
 })
 
 bot.hear(/Назад/i, async(context, next) => {
@@ -71,137 +61,19 @@ bot.hear(/Расписание/i, async(context, next) => {
 })
 
 bot.hear(/Справка/i, async(context, next) => {
-  context.send({ message: `О нас`, keyboard: JSON.stringify({buttons:[[{action:{type:"text", label:"Стоимость подписки на бота"}, color: "primary"}, {action:{type:"text", label:"Когда был создан бот"}, color: "primary" }], [{action:{type:"text", label:"Назад"}, color:"secondary"}]], inline:false}) });
+  context.send({ message: `О нас`, keyboard: JSON.stringify({buttons:[[{action:{type:"text", label:"Когда был создан бот"}, color: "primary" }], [{action:{type:"text", label:"Назад"}, color:"secondary"}]], inline:false}) });
 })
+// {action:{type:"text", label:"Стоимость подписки на бота"}, color: "primary"}, 
+// ТУПОЕ ЕБАНЬКО
 
-bot.hear(/Стоимость подписки на бота/i, async(context, next) => {
-  context.send({ message: `Стоимость подписки со всем доступным расписанием на месяц составляет 30 рублей`, keyboard: JSON.stringify({buttons:[[{action:{type:"text", label:"Купить"}, color: "primary"}, {action:{type:"text", label:"Ахуевшие долбаебы со 2 курса"}, color: "primary" }], [{action:{type:"text", label:"Назад"}, color:"secondary"}]], inline:false}) });
-})
+// bot.hear(/Стоимость подписки на бота/i, async(context, next) => {
+//   context.send({ message: `Стоимость подписки со всем доступным расписанием на месяц составляет 30 рублей`, keyboard: JSON.stringify({buttons:[[{action:{type:"text", label:"Купить"}, color: "primary"}, {action:{type:"text", label:"Ахуевшие долбаебы со 2 курса"}, color: "primary" }], [{action:{type:"text", label:"Назад"}, color:"secondary"}]], inline:false}) });
+// })  
+// ВЛАД БЛЯТЬ КАКОГО ХУЯ
 
 bot.hear(/Когда был создан бот/i, async(context, next) => {
-  context.send({ message: `О нас`, keyboard: JSON.stringify({buttons:[[{action:{type:"text", label:"Разработка бота началась в далеком 09.06.2023"}, color: "primary"}], [{action:{type:"text", label:"Назад"}, color:"secondary"}]], inline:false}) });
+  context.send({ message: `Разработка бота началась в далеком 11.07.2023`, keyboard: JSON.stringify({buttons:[[{action:{type:"text", label:"Назад"}, color:"secondary"}]], inline:false}) });
 })
-
-
-// let keyboard = Keyboard.keyboard([
-//   [
-//     Keyboard.callbackButton({
-//       label: 'Расписание',
-//       color: 'negative',
-//       payload: {
-//         button: 'Расписание'
-//       },
-//       callback_data: 'test'
-//     }),
-//     Keyboard.callbackButton({
-//       label: 'Преподаватели',
-//       color: 'positive',
-//       payload: {
-//         button: 'Преподаватели'
-//       },
-//       callback_data: 'test'
-//     })
-//   ],
-//   [
-//     Keyboard.callbackButton({
-//       label: 'Кабинет',
-//       color: 'primary',
-//       payload: {
-//         button: 'Кабинет'
-//       },
-//       callback_data: 'test'
-//     }),
-//     Keyboard.callbackButton({
-//       label: 'Справка',
-//       color: 'secondary',
-//       payload: {
-//         button: 'Справка'
-//       },
-//       callback_data: 'test'
-//     })
-//   ]
-// ]).inline();
-
-// bot.hear(/tt/i, msg=>{
-//   msg.send('yes');
-//   let msginfo = msg.toJSON();
-//   console.log(msginfo);
-//   vk.api.messages.edit({
-//     peer_id: msginfo.peerId,
-//     message_id: msginfo.id,
-//     message: 'ОНО РАБОТАЕТ?',
-//     keyboard: wht,
-//   });
-// })
-
-// bot.hear(/cb/i, msg => {
-//   msg.send({ message: 'Callback клавиатура', keyboard: keyboard, random_id: getRandomId() });
-// });
-
-// function messageEnter() {
-//   return 'Выбран кабинет';
-// }
-
-// function messageEnter1() {
-//   return 'Справка о программе';
-// }
-
-// function messageEnter2() {
-//   return 'Выбрано расписание';
-// }
-
-// function messageEnter3() {
-//   return 'Выберите преподавателя';
-// }
-
-// vk.updates.on('message_event', msg => {
-//   const button = msg.eventPayload.button;
-
-//   let responseMessage;
-//   let responseKeyboard;
-
-// 	if (button !== 'Назад') {
-// 		responseKeyboard = Keyboard.keyboard([
-// 		[
-//         Keyboard.callbackButton({
-//           label: 'Назад',
-//           color: 'primary',
-//           payload: {
-//             button: 'Назад'
-//           },
-//           callback_data: 'test'
-//         })
-//       ]
-//     ]).inline();
-
-//     if (button === 'Расписание') {
-//       responseMessage = messageEnter2();
-//     } else if (button === 'Кабинет') {
-//       responseMessage = messageEnter();
-//     } else if (button === 'Справка') {
-//       responseMessage = messageEnter1();
-//     } else {
-//       responseMessage = messageEnter3();
-//     }
-
-//     vk.api.messages.send({
-//       message: responseMessage,
-//       peer_id: msg.peerId,
-//       random_id: getRandomId(),
-//       keyboard: responseKeyboard
-//     });
-//   } else {
-//     responseKeyboard = keyboard;
-
-//     vk.api.messages.send({
-//       message: 'Callback клавиатура',
-//       peer_id: msg.peerId,
-//       random_id: getRandomId(),
-//       keyboard: responseKeyboard
-//     });
-//   }
-// });
-
 
 bot.hear('stoprequest', msg=>{
 	vk.updates.stop();

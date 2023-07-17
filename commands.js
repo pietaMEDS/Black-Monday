@@ -34,16 +34,24 @@ function findCommand(cmd, msg){
           hello(msg);
           break;
 
-        case 'cb':
-          console.log('%ccall: CallBackButton', 'color:green')
+        case 'start':
+        case 'назад': 
+        case 'кабинет': 
+        case 'преподователь':
+        case 'расписание':
+        case 'справка':
+        case 'когда был создан бот':
+          console.log('%ccall: Button ' + cmd + " by " + msg.senderId, 'color:green');
+          break;
 
         case 'stoprequest':
           stoprequest();
           break;
 
         default:
-            console.log('%cWarning: Команда не найдена', 'color:orange');
-            break;
+          console.log(cmd.toLowerCase())
+          console.log('%cWarning: Команда не найдена', 'color:orange');
+          break;
     }
 }
 
