@@ -49,30 +49,27 @@ bot.hear(/Назад/i, async(context, next) => {
 })
 
 bot.hear(/Кабинет/i, async(context, next) => {
-  context.send({ message: `Уточните кабинет`, keyboard: JSON.stringify({buttons:[[{action:{type:"text", label:"39 кабинет"}, color: "negative"}, {action:{type:"text", label:"41 кабинет"}, color: "primary"}], [{action:{type:"text", label:"Назад"}, color:"secondary"}]], inline: false}) });
+  context.send({ message: `Напишите кабинет`, keyboard: JSON.stringify({buttons:[[{action:{type:"text", label:"Назад"}, color:"secondary"}]], inline: false}) });
 })
 
 bot.hear(/Преподователь/i, async(context, next) => {
-  context.send({ message: `Выберите преподователя`, keyboard: JSON.stringify({buttons:[[{action:{type:"text", label:"Закирова Р.А"}, color: "primary"}, {action:{type:"text", label:"Меркулова С.В"}, color: "primary" }], [{action:{type:"text", label:"Назад"}, color:"secondary"}]], inline:false}) });
+  context.send({ message: `Ф.И.О преподавателя`, keyboard: JSON.stringify({buttons:[[{action:{type:"text", label:"Назад"}, color:"secondary"}]], inline:false}) });
 })
 
 bot.hear(/Расписание/i, async(context, next) => {
-  context.send({ message: `Выберите дату`, keyboard: JSON.stringify({buttons:[[{action:{type:"text", label:"Всё доступное"}, color: "primary"}, {action:{type:"text", label:"Сегодня"}, color: "primary" }, {action:{type:"text", label:"Завтра"}, color: "primary" }], [{action:{type:"text", label:"Назад"}, color:"secondary"}]], inline:false}) });
+  context.send({ message: `Напиши свою группу`, keyboard: JSON.stringify({buttons:[[{action:{type:"text", label:"Назад"}, color:"secondary"}]], inline: false}) });
 })
 
 bot.hear(/Справка/i, async(context, next) => {
-  context.send({ message: `О нас`, keyboard: JSON.stringify({buttons:[[{action:{type:"text", label:"Когда был создан бот"}, color: "primary" }], [{action:{type:"text", label:"Назад"}, color:"secondary"}]], inline:false}) });
+  context.send({ message: `О нас`, keyboard: JSON.stringify({buttons:[[{action:{type:"text", label:"Когда был создан бот"}, color: "primary" }, {action:{type:"text", label:"Стоимость бота в месяц"}, color: "primary" }], [{action:{type:"text", label:"Назад"}, color:"secondary"}]], inline:false}) });
 })
-// {action:{type:"text", label:"Стоимость подписки на бота"}, color: "primary"}, 
-// ТУПОЕ ЕБАНЬКО
 
-// bot.hear(/Стоимость подписки на бота/i, async(context, next) => {
-//   context.send({ message: `Стоимость подписки со всем доступным расписанием на месяц составляет 30 рублей`, keyboard: JSON.stringify({buttons:[[{action:{type:"text", label:"Купить"}, color: "primary"}, {action:{type:"text", label:"Ахуевшие долбаебы со 2 курса"}, color: "primary" }], [{action:{type:"text", label:"Назад"}, color:"secondary"}]], inline:false}) });
-// })  
-// ВЛАД БЛЯТЬ КАКОГО ХУЯ
+bot.hear(/Стоимость бота в месяц/i, async(context, next) => {
+  context.send({ message: `Стоимость подписки в месяц 50 рублей`, keyboard: JSON.stringify({buttons:[[{action:{type:"text", label:"Купить"}, color: "negative" }], [{action:{type:"text", label:"Назад"}, color:"secondary"}]], inline:false}) });
+})
 
 bot.hear(/Когда был создан бот/i, async(context, next) => {
-  context.send({ message: `Разработка бота началась в далеком 11.07.2023`, keyboard: JSON.stringify({buttons:[[{action:{type:"text", label:"Назад"}, color:"secondary"}]], inline:false}) });
+  context.send({ message: `Разработка бота началась в далеком 09.06.2023`, keyboard: JSON.stringify({buttons:[[{action:{type:"text", label:"Назад"}, color:"secondary"},]], inline:false}) });
 })
 
 bot.hear('stoprequest', msg=>{

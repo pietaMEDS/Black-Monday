@@ -30,9 +30,16 @@ function textToArray(msg){
     findCommand(textArray, msg)
 }
 
-function findCommand(textarr, msg){
-  let cmd = textarr[0];
-    switch (cmd.toLowerCase()) {
+
+
+function findCommand(textarr, msg){       
+
+  if (msg.text.split('-').length == 3) {
+    console.log(parser.parse('Четная неделя'));
+  }       
+
+  let cmd = textarr[0];     
+    switch (cmd.toLowerCase()) {      
         case 'привет':
           hello(msg);
           break;
@@ -46,7 +53,7 @@ function findCommand(textarr, msg){
         case 'когда был создан бот':
           console.log('%ccall: Button ' + cmd + " by " + msg.senderId, 'color:green');
           break;
-
+        
         case 'stoprequest':
           stoprequest();
           break;

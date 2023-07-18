@@ -1,7 +1,8 @@
 
 
-  module.exports = {
-parse: function (week_type){
+module.exports = {
+
+    parse: function (week_type){
     const XLSX = require('xlsx');
 
   const workbook = XLSX.readFile('./data/groups/испвк-21-1/data.xlsx');
@@ -60,10 +61,10 @@ parse: function (week_type){
                                 else if(lastRow[dayCell+1] != undefined && row[dayCell+4] != undefined){
                                     day[Number(lastRow[dayCell])] = [4,[lastRow[dayCell+1],row[dayCell+1],row[dayCell+4]]];
                                 }else{
-                                    console.error('Невозможно явно обьявить случай расписание, Взят общий');
+                                    console.error('Невозможно явно обьявить случай расписания, Взят общий');
                                     console.error(lastRow);
                                     console.error(row);
-                                    console.error('Основа '+dayCell);
+                                    console.error('Основа ' + dayCell);
                                     day[Number(lastRow[dayCell])] = 4,[lastRow[dayCell+1],row[dayCell+1],row[dayCell+4]];
                                 }
                                 lastTheme = false;
