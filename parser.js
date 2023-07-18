@@ -2,15 +2,14 @@
 
 module.exports = {
 
-    parse: function (week_type){
-    const XLSX = require('xlsx');
+    parse: function (week_type, groupsName){
+        const XLSX = require('xlsx');
+        const workbook = XLSX.readFile('./data/groups/' + groupsName+ '/data.xlsx');
+        const sheetNames = workbook.SheetNames;
+        const worksheet = workbook.Sheets[sheetNames[0]];
+        const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
 
-  const workbook = XLSX.readFile('./data/groups/испвк-21-1/data.xlsx');
-
-  const sheetNames = workbook.SheetNames;
-
-  const worksheet = workbook.Sheets[sheetNames[0]];
-  const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+ 
 
   //  Случаи
   //    1 - Только первый

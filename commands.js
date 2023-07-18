@@ -35,7 +35,7 @@ function textToArray(msg){
 function findCommand(textarr, msg){       
 
   if (msg.text.split('-').length == 3) {
-    console.log(parser.parse('Четная неделя'));
+    console.log(parser.parse('Четная неделя' , msg.text.toLowerCase()) );
   }       
 
   let cmd = textarr[0];     
