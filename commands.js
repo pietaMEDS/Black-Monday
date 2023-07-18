@@ -1,10 +1,12 @@
 const data = require('./data.json');
+
 const { VK, Keyboard, getRandomId } = require('vk-io');
 
 const { HearManager } = require('@vk-io/hear');
 
 const VkBot = require('node-vk-bot-api');
 
+const parser = require("./parser.js");
 
 const service = new VkBot(data.token);
 
@@ -25,10 +27,11 @@ vk.updates.on('message_new', (context, next) => {
 
 function textToArray(msg){
     let textArray = msg.text.split(' ');
-    findCommand(textArray[0], msg)
+    findCommand(textArray, msg)
 }
 
-function findCommand(cmd, msg){
+function findCommand(textarr, msg){
+  let cmd = textarr[0];
     switch (cmd.toLowerCase()) {
         case 'привет':
           hello(msg);
@@ -48,6 +51,14 @@ function findCommand(cmd, msg){
           stoprequest();
           break;
 
+          case 'test':
+            if(textarr[1].toLowerCase() == 'нечетная' || textarr[1].toLowerCase() == 'чётная' || textarr[1].toLowerCase() == 'четная' || textarr[1].toLowerCase() == 'нечётная'){
+              test(textarr[1].toLowerCase(),msg);
+            } else{
+            msg.send('Введите чётность недели. Пример "test Чётная"');
+            }
+            break;
+
         default:
           console.log(cmd.toLowerCase())
           console.log('%cWarning: Команда не найдена', 'color:orange');
@@ -64,6 +75,12 @@ service.startPolling((err) => {
       console.error(err);
     }
   });
+
+  async function test(week,msg){ // week должно принять одно из значений "нечетная" или "четная" в другом случае, работать не будет
+    let work = parser.parse(week);
+    await work;
+    console.log(work);
+  }
 
   function stoprequest(){
     console.log('%cPROCESS STOPED', 'color:red')
