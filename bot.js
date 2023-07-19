@@ -44,7 +44,7 @@ const startKeyBoard = Keyboard.keyboard ([
   ],
   [
     Keyboard.textButton({
-      label: 'Купить подписку💰',
+      label: '💰Купить подписку💰',
       color: Keyboard.SECONDARY_COLOR 
     }),
   ]
@@ -95,7 +95,7 @@ bot.hear(/Вторая/i, async(context, next) => {
   parser.output(context,'Вторая', week);
 })
 
-bot.hear(/Купить подписку💰/i, async(context, next) => {
+bot.hear(/💰Купить подписку💰/i, async(context, next) => {
   context.send({ message: `Стоимость подписки 50 рублей в месяц`, keyboard: JSON.stringify({buttons:[[{action:{type:"open_link", link:'https://qiwi.com/payment/form/99?extra%5B%27account%27%5D=+79026157767&amountInteger=500&currency=643&extra%5B%27comment%27%5D=ЗА%20БОТА', label:"Купить"}}], [{action:{type:"text", label:"Назад"}, color:"secondary"}]], inline:false}) });
 })
 
