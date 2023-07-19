@@ -10,10 +10,14 @@ const service = new VkBot(data.token);
 
 const cmds = require('./commands.js');
 
+const parser = require("./parser.js");
+
 const vk = new VK({
     token: data.token
 });
 const bot = new HearManager();
+
+let week;
 
 vk.updates.on('message_new', bot.middleware);
 
@@ -79,15 +83,16 @@ bot.hear(/Когда был создан бот/i, async(context, next) => {
 })
 
 bot.hear(/^[а-я]{1,5}-\d{2}-\d$/i, async(context, next) => {
+  week = parser.parse(context.text.toLowerCase());
   context.send({ message: `Выбери подгруппу`, keyboard: JSON.stringify({buttons:[[{action:{type:"text", label:"Первая"}, color: "negative" }, {action:{type:"text", label:"Вторая"}, color: "negative" }], [{action:{type:"text", label:"Назад"}, color:"secondary"}]], inline:false}) });
 })
 
 bot.hear(/Первая/i, async(context, next) => {
-  context.send({ message: `Опущенным расписание не дают`, keyboard: JSON.stringify({buttons:[[{action:{type:"text", label:"Назад"}, color:"secondary"}]], inline:false}) });
+  parser.output(context,'Первая', week);
 })
 
 bot.hear(/Вторая/i, async(context, next) => {
-  context.send({ message: `Скоро всё будет`, keyboard: JSON.stringify({buttons:[[{action:{type:"text", label:"Назад"}, color:"secondary"}]], inline:false}) });
+  parser.output(context,'Вторая', week);
 })
 
 bot.hear(/Купить подписку/i, async(context, next) => {

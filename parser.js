@@ -382,17 +382,63 @@ module.exports = {
 },
 
     output:function(msg,ungroup,week){
+        if(ungroup == 'Первая'){
+            ungroup = 1;
+        } else if (ungroup == 'Вторая'){
+            ungroup = 2;
+        }
         let today = new Date();
         DayofWeek = today.getDay();
         let message = "";
         if(DayofWeek>=3){
-            for(let i = 1; i != 3;i++){
-                for (lessons in week[i]){
-                    message += week[i][lessons];
+            for(DayofWeek; DayofWeek <= 3;DayofWeek++){
+                // week[DayofWeek][Pars][Массив_ПАРЫ][ПАРА]
+               for(let Pars = 1; Pars != 10; Pars++){
+                let temp = Acident(ungroup,week,DayofWeek,Pars) + "\n";
+                if (temp != 'undefined\n'){
+                    message+=temp;
                 }
+               }
             }
-            msg.send(message);
+        } else {
+            for(DayofWeek; DayofWeek <= 6;DayofWeek++){
+                // week[DayofWeek][Pars][Массив_ПАРЫ][ПАРА]
+               for(let Pars = 1; Pars != 10; Pars++){
+                let temp = Acident(ungroup,week,DayofWeek,Pars) + "\n";
+                if (temp != 'undefined\n'){
+                    message+=temp;
+                }
+               }
+            }
+        }
+        msg.send(message);
+        function Acident(ungroup,week,DayofWeek,Pars){
+            if(week[DayofWeek][Pars] != undefined){
+                if(ungroup == 1){
+                    switch(week[DayofWeek][Pars][0]){
+                        case 1:
+                        case 3:
+                        case 4:
+                            return Pars+": "+week[DayofWeek][Pars][1][0]+" "+week[DayofWeek][Pars][1][1]+" "+week[DayofWeek][Pars][1][2];
+                            break;
+                        case 2:
+                            return undefined;
+                            break;
+                    }
+                } else if(ungroup == 2){
+                    switch(week[DayofWeek][Pars][0]){
+                        case 1:
+                            return undefined;
+                            break;
+                        case 2:
+                        case 4:
+                            return Pars+": "+week[DayofWeek][Pars][1][0]+" "+week[DayofWeek][Pars][1][1]+" "+week[DayofWeek][Pars][1][2];
+                            break;
+                        case 3:
+                            return Pars+": "+week[DayofWeek][Pars][2][0]+" "+week[DayofWeek][Pars][2][1]+" "+week[DayofWeek][Pars][2][2];
+                    }
+                }  
+            }
         }
     }
-
 }
