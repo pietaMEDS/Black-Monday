@@ -24,21 +24,21 @@ vk.updates.on('message_new', bot.middleware);
 const startKeyBoard = Keyboard.keyboard ([
   [
     Keyboard.textButton({
-      label: 'Расписание',
+      label: '📅Расписание',
       color: Keyboard.SECONDARY_COLOR
     }),
     Keyboard.textButton({
-      label: 'Кабинет',
+      label: '🚪Кабинет', 
       color: Keyboard.PRIMARY_COLOR
     }),
   ],
   [
     Keyboard.textButton({
-      label: 'Преподователь',
+      label: '🎓Преподователь',
       color: Keyboard.POSITIVE_COLOR
     }),
     Keyboard.textButton({
-      label: 'Справка',
+      label: '📜Справка',
       color: Keyboard.NEGATIVE_COLOR
     }),
   ],
@@ -58,19 +58,19 @@ bot.hear(/Назад/i, async(context, next) => {
   context.send({ message: `Вы вернулись назад`, keyboard: startKeyBoard })
 })
 
-bot.hear(/Кабинет/i, async(context, next) => {
+bot.hear(/🚪Кабинет/i, async(context, next) => {
   context.send({ message: `Напишите кабинет`, keyboard: JSON.stringify({buttons:[[{action:{type:"text", label:"Назад"}, color:"secondary"}]], inline: false}) });
 })
 
-bot.hear(/Преподователь/i, async(context, next) => {
+bot.hear(/🎓Преподователь/i, async(context, next) => {
   context.send({ message: `Ф.И.О преподавателя`, keyboard: JSON.stringify({buttons:[[{action:{type:"text", label:"Назад"}, color:"secondary"}]], inline:false}) });
 })
 
-bot.hear(/Расписание/i, async(context, next) => {
-  context.send({ message: `Напиши свою группу (пример 'ОооОо-77-7')`, keyboard: JSON.stringify({buttons:[[{action:{type:"text", label:"Назад"}, color:"secondary"}]]}) });
+bot.hear(/📅Расписание/i, async(context, next) => {
+  context.send({ message: `Напиши свою группу`, keyboard: JSON.stringify({buttons:[[{action:{type:"text", label:"Назад"}, color:"secondary"}]], inline: false}) });
 })
 
-bot.hear(/Справка/i, async(context, next) => {
+bot.hear(/📜Справка/i, async(context, next) => {
   context.send({ message: `О нас`, keyboard: JSON.stringify({buttons:[[{action:{type:"text", label:"Когда был создан бот"}, color: "primary" }, {action:{type:"text", label:"Стоимость бота в месяц"}, color: "primary" }], [{action:{type:"text", label:"Назад"}, color:"secondary"}]], inline:false}) });
 })
 
