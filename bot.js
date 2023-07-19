@@ -37,6 +37,12 @@ const startKeyBoard = Keyboard.keyboard ([
       label: 'Справка',
       color: Keyboard.NEGATIVE_COLOR
     }),
+  ],
+  [
+    Keyboard.textButton({
+      label: 'Купить подписку',
+      color: Keyboard.SECONDARY_COLOR 
+    }),
   ]
 ])
 
@@ -57,7 +63,7 @@ bot.hear(/Преподователь/i, async(context, next) => {
 })
 
 bot.hear(/Расписание/i, async(context, next) => {
-  context.send({ message: `Напиши свою группу`, keyboard: JSON.stringify({buttons:[[{action:{type:"text", label:"Назад"}, color:"secondary"}]], inline: false}) });
+  context.send({ message: `Напиши свою группу (пример 'ОооОо-77-7')`, keyboard: JSON.stringify({buttons:[[{action:{type:"text", label:"Назад"}, color:"secondary"}]]}) });
 })
 
 bot.hear(/Справка/i, async(context, next) => {
@@ -69,7 +75,7 @@ bot.hear(/Стоимость бота в месяц/i, async(context, next) => {
 })
 
 bot.hear(/Когда был создан бот/i, async(context, next) => {
-  context.send({ message: `Разработка бота началась в далеком 09.06.2023`, keyboard: JSON.stringify({buttons:[[{action:{type:"text", label:"Назад"}, color:"secondary"},]], inline:false}) });
+  context.send({ message: `Разработка бота началась в далеком 09.06.2023`, keyboard: JSON.stringify({buttons:[[{action:{type:"text", label:"Назад"}, color:"secondary"},]]}) });
 })
 
 bot.hear(/^[а-я]{1,5}-\d{2}-\d$/i, async(context, next) => {
@@ -84,26 +90,9 @@ bot.hear(/Вторая/i, async(context, next) => {
   context.send({ message: `Скоро всё будет`, keyboard: JSON.stringify({buttons:[[{action:{type:"text", label:"Назад"}, color:"secondary"}]], inline:false}) });
 })
 
-// const regexPattern = /^[a-zA-Z]{4}-\*\*-..$/;
-
-// botar(/^[a-zA-Z]{4}-\*\*-..$/i, (context) => {
-//   const group = context.match[0]; // Получаем совпадение из сообщения пользователя
-
-//   // Здесь ты можешь выполнить дополнительныеействия в зависимости от правильности ввода группы
-//   (isValidGroup(group)) {
-//     // Группа введена правильно
-//     context.send(`Группа ${group} введена правильно.`);
-//   } else {
-//     // Группа введена неправильно
-//     context.send(`Группа ${group} введена неправильно.`);
-//   }
-// });
-
-// function isValidGroup(group) {
-//   // Здесь ты можешь реализовать свою логику проверки правильности ввода группы
-//   Например, проверить соответствие формату или сравнить существующие группы
-//   // Верни true, если группа правильная, и false в противном случае
-// }
+bot.hear(/Купить подписку/i, async(context, next) => {
+  context.send({ message: `Стоимость подписки 50 рублей в месяц`, keyboard: JSON.stringify({buttons:[[{action:{type:"open_link", link:'https://qiwi.com/payment/form/99?extra%5B%27account%27%5D=+79026157767&amountInteger=500&currency=643&extra%5B%27comment%27%5D=ЗА%20БОТА', label:"Купить"}}], [{action:{type:"text", label:"Назад"}, color:"secondary"}]], inline:false}) });
+})
 
 bot.hear('stoprequest', msg=>{
 	vk.updates.stop();
@@ -120,6 +109,6 @@ async function start(){
   await workb & works;
   console.log('Бот запущен!!');
   return workb, works
-} ;
+}
 
 start();
