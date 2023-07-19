@@ -32,10 +32,10 @@ function textToArray(msg){
 
 function findCommand(textarr, msg){       
 
-  if (msg.text.split('-').length == 3) {
-    let week = parser.parse(msg.text.toLowerCase());
-    parser.output(msg,'Первая', week);
-  }       
+  // if (msg.text.split('-').length == 3) {
+  //   let week = parser.parse(msg.text.toLowerCase());
+  //   parser.output(msg,ungroup, week);
+  // }       
 
   let cmd = textarr[0];     
     switch (cmd.toLowerCase()) {      
@@ -66,8 +66,7 @@ function findCommand(textarr, msg){
             break;
 
         default:
-          console.log(cmd.toLowerCase())
-          console.log('%cWarning: Команда не найдена', 'color:orange');
+          console.log('%cWarning: Команда '+cmd.toLowerCase()+' не найдена', 'color:orange');
           break;
     }
 }
@@ -81,12 +80,6 @@ service.startPolling((err) => {
       console.error(err);
     }
   });
-
-  async function test(week,msg){ // week должно принять одно из значений "нечетная" или "четная" в другом случае, работать не будет
-    let work = parser.parse(week);
-    await work;
-    console.log(work);
-  }
 
   function stoprequest(){
     console.log('%cPROCESS STOPED', 'color:red')
