@@ -112,7 +112,7 @@ async function start(){
   });
   let works = vk.updates.start().catch(console.error);
   await workb & works;
-  console.log('Бот запущен!!');
+  console.log('Бот запущен!!!');
   return workb, works
 }
 
