@@ -30,8 +30,6 @@ function textToArray(msg){
     findCommand(textArray, msg)
 }
 
-
-
 function findCommand(textarr, msg){       
 
   if (msg.text.split('-').length == 3) {

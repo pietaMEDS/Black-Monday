@@ -72,6 +72,39 @@ bot.hear(/Когда был создан бот/i, async(context, next) => {
   context.send({ message: `Разработка бота началась в далеком 09.06.2023`, keyboard: JSON.stringify({buttons:[[{action:{type:"text", label:"Назад"}, color:"secondary"},]], inline:false}) });
 })
 
+bot.hear(/^[а-я]{1,5}-\d{2}-\d$/i, async(context, next) => {
+  context.send({ message: `Выбери подгруппу`, keyboard: JSON.stringify({buttons:[[{action:{type:"text", label:"Первая"}, color: "negative" }, {action:{type:"text", label:"Вторая"}, color: "negative" }], [{action:{type:"text", label:"Назад"}, color:"secondary"}]], inline:false}) });
+})
+
+bot.hear(/Первая/i, async(context, next) => {
+  context.send({ message: `Опущенным расписание не дают`, keyboard: JSON.stringify({buttons:[[{action:{type:"text", label:"Назад"}, color:"secondary"}]], inline:false}) });
+})
+
+bot.hear(/Вторая/i, async(context, next) => {
+  context.send({ message: `Скоро всё будет`, keyboard: JSON.stringify({buttons:[[{action:{type:"text", label:"Назад"}, color:"secondary"}]], inline:false}) });
+})
+
+// const regexPattern = /^[a-zA-Z]{4}-\*\*-..$/;
+
+// botar(/^[a-zA-Z]{4}-\*\*-..$/i, (context) => {
+//   const group = context.match[0]; // Получаем совпадение из сообщения пользователя
+
+//   // Здесь ты можешь выполнить дополнительныеействия в зависимости от правильности ввода группы
+//   (isValidGroup(group)) {
+//     // Группа введена правильно
+//     context.send(`Группа ${group} введена правильно.`);
+//   } else {
+//     // Группа введена неправильно
+//     context.send(`Группа ${group} введена неправильно.`);
+//   }
+// });
+
+// function isValidGroup(group) {
+//   // Здесь ты можешь реализовать свою логику проверки правильности ввода группы
+//   Например, проверить соответствие формату или сравнить существующие группы
+//   // Верни true, если группа правильная, и false в противном случае
+// }
+
 bot.hear('stoprequest', msg=>{
 	vk.updates.stop();
   service.stop();
