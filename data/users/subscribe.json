@@ -1,8 +1,14 @@
 {
     "090":{
-        "subscribe": false
+        "subscribe": true
     },
     "180928984":{
+        "subscribe": false
+    },
+    "406739455":{
+        "subscribe": false
+    },
+    "252557850":{
         "subscribe": false
     }
 }
