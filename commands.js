@@ -21,9 +21,20 @@ vk.updates.on('message_new', (context, next) => {
 		? messagePayload.command
 		: null;
     console.log('"' + context.text + '"' +' by ' + context.senderId.toString());
+    WhatUser(context);
     textToArray(context);
 	return next();
 });
+
+async function WhatUser(msg){
+  let data = require('./data/users/subscribe.json');
+  if (data[msg.senderId] === undefined){
+    msg.send("Ваша подписка неактивна");
+  }
+  // data[msg.senderId] ? undefined:
+  // console.log(data[msg.senderId])
+  // // data[090]
+}
 
 function textToArray(msg){
     let textArray = msg.text.split(' ');

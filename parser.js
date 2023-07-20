@@ -390,36 +390,78 @@ module.exports = {
         let today = new Date();
         DayofWeek = today.getDay();
         let message = "";
-        if(DayofWeek>=3){
+        if(DayofWeek<=3){
             for(DayofWeek; DayofWeek <= 3;DayofWeek++){
                 // week[DayofWeek][Pars][Массив_ПАРЫ][ПАРА]
                for(let Pars = 1; Pars != 10; Pars++){
                 let temp = Acident(ungroup,week,DayofWeek,Pars) + "\n";
                 if (temp != 'undefined\n'){
-                    message+=temp;
+                    let formattedPars = formatNumberWithEmoji(Pars);
+                    message += formattedPars + " " + temp;
                 }
                }
             }
         } else {
             for(DayofWeek; DayofWeek <= 6;DayofWeek++){
-                // week[DayofWeek][Pars][Массив_ПАРЫ][ПАРА]
-               for(let Pars = 1; Pars != 10; Pars++){
+                message += DaytoRus(DayofWeek)+"\n"
+                //  week[DayofWeek][Pars][Массив_ПАРЫ][ПАРА]
+              for(let Pars = 1; Pars != 10; Pars++){
                 let temp = Acident(ungroup,week,DayofWeek,Pars) + "\n";
-                if (temp != 'undefined\n'){
-                    message+=temp;
-                }
-               }
+               if (temp != 'undefined\n'){
+                let formattedPars = formatNumberWithEmoji(Pars);
+                message += formattedPars + " " + temp;
+              }
+              }
             }
         }
+
+        function DaytoRus(DayofWeek){
+            switch(DayofWeek){
+                case 0:
+                    return "Воскресенье"
+                    break;
+                case 1:
+                    return "Понедельник"
+                    break;
+                case 2:
+                    return "Вторник"
+                    break;
+                case 3:
+                    return "Среда"
+                    break;
+                case 4:
+                    return "Четверг"
+                    break;
+                case 5:
+                    return "Пятница"
+                    break;
+                case 6:
+                    return "Суббота"
+                    break;
+            }
+        }
+
+        function formatNumberWithEmoji(number) {
+            const numberEmojis = ["1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣", "6️⃣", "7️⃣", "8️⃣", "9️⃣"];
+            const numberString = String(number);
+            let formattedNumber = "";
+            for (let i = 0; i < numberString.length; i++) {
+              let digit = Number(numberString[i]);
+              formattedNumber += numberEmojis[digit - 1];
+            }
+            return formattedNumber;
+          }
         msg.send(message);
         function Acident(ungroup,week,DayofWeek,Pars){
+            
             if(week[DayofWeek][Pars] != undefined){
                 if(ungroup == 1){
                     switch(week[DayofWeek][Pars][0]){
                         case 1:
                         case 3:
                         case 4:
-                            return Pars+": "+week[DayofWeek][Pars][1][0]+" "+week[DayofWeek][Pars][1][1]+" "+week[DayofWeek][Pars][1][2];
+                            // парс это номер пары , week [DayofWeek][Pars][1][0] название пары,  week[DayofWeek][Pars][1][1] кто ведёт пару, week[DayofWeek][Pars][1][2] кабинет
+                            return  " "+week[DayofWeek][Pars][1][0]+" "+"🎓"+week[DayofWeek][Pars][1][1]+" "+"🚪"+week[DayofWeek][Pars][1][2];
                             break;
                         case 2:
                             return undefined;
@@ -432,10 +474,10 @@ module.exports = {
                             break;
                         case 2:
                         case 4:
-                            return Pars+": "+week[DayofWeek][Pars][1][0]+" "+week[DayofWeek][Pars][1][1]+" "+week[DayofWeek][Pars][1][2];
+                            return " "+week[DayofWeek][Pars][1][0]+" "+"🎓"+week[DayofWeek][Pars][1][1]+" "+"🚪"+week[DayofWeek][Pars][1][2];
                             break;
                         case 3:
-                            return Pars+": "+week[DayofWeek][Pars][2][0]+" "+week[DayofWeek][Pars][2][1]+" "+week[DayofWeek][Pars][2][2];
+                            return " "+week[DayofWeek][Pars][2][0]+" "+"🎓"+week[DayofWeek][Pars][2][1]+" "+"🚪"+week[DayofWeek][Pars][2][2];
                     }
                 }  
             }
