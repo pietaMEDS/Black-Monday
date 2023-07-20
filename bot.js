@@ -13,6 +13,8 @@ const cmds = require('./commands.js');
 const parser = require("./parser.js");
 const { nextTick } = require('process');
 
+const { startKeyBoard, Reference, backButton, priceBot, group } = require("./button.js")
+
 const vk = new VK({
     token: data.token
 });
@@ -145,7 +147,7 @@ async function start(){
   });
   let works = vk.updates.start().catch(console.error);
   await workb & works;
-  console.log('Бот запущен!!!');
+  console.log('Бот запущен!!');
   return workb, works
 }
 
