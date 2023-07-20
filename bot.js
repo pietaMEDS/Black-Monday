@@ -103,42 +103,6 @@ function WhatUser(msg){
   }
 }
 
-const startKeyBoard = Keyboard.keyboard ([
-  [
-    Keyboard.textButton({
-      label: '📅Расписание',
-      color: Keyboard.SECONDARY_COLOR
-    }),
-    Keyboard.textButton({
-      label: '🚪Кабинет', 
-      color: Keyboard.PRIMARY_COLOR
-    }),
-  ],
-  [
-    Keyboard.textButton({
-      label: '🎓Преподователь',
-      color: Keyboard.POSITIVE_COLOR
-    }),
-    Keyboard.textButton({
-      label: '📜Справка',
-      color: Keyboard.NEGATIVE_COLOR
-    }),
-  ],
-  [
-    Keyboard.textButton({
-      label: 'Купить подписку💰',
-      color: Keyboard.SECONDARY_COLOR 
-    }),
-  ]
-])
-
-
-
-bot.hear('stoprequest', msg=>{
-	vk.updates.stop();
-  service.stop();
-});
-
 async function start(){
   let workb = service.startPolling((err) => {
     if (err) {
