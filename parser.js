@@ -390,7 +390,7 @@ module.exports = {
         let today = new Date();
         DayofWeek = today.getDay();
         let message = "";
-        if(DayofWeek>=3){
+        if(DayofWeek<=3){
             for(DayofWeek; DayofWeek <= 3;DayofWeek++){
                 // week[DayofWeek][Pars][Массив_ПАРЫ][ПАРА]
                for(let Pars = 1; Pars != 10; Pars++){
@@ -403,17 +403,44 @@ module.exports = {
             }
         } else {
             for(DayofWeek; DayofWeek <= 6;DayofWeek++){
-                 week[DayofWeek][Pars][Массив_ПАРЫ][ПАРА]
+                message += DaytoRus(DayofWeek)+"\n"
+                //  week[DayofWeek][Pars][Массив_ПАРЫ][ПАРА]
               for(let Pars = 1; Pars != 10; Pars++){
                 let temp = Acident(ungroup,week,DayofWeek,Pars) + "\n";
                if (temp != 'undefined\n'){
                 let formattedPars = formatNumberWithEmoji(Pars);
                 message += formattedPars + " " + temp;
-                    
               }
               }
             }
         }
+
+        function DaytoRus(DayofWeek){
+            switch(DayofWeek){
+                case 0:
+                    return "Воскресенье"
+                    break;
+                case 1:
+                    return "Понедельник"
+                    break;
+                case 2:
+                    return "Вторник"
+                    break;
+                case 3:
+                    return "Среда"
+                    break;
+                case 4:
+                    return "Четверг"
+                    break;
+                case 5:
+                    return "Пятница"
+                    break;
+                case 6:
+                    return "Суббота"
+                    break;
+            }
+        }
+
         function formatNumberWithEmoji(number) {
             const numberEmojis = ["1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣", "6️⃣", "7️⃣", "8️⃣", "9️⃣"];
             const numberString = String(number);
