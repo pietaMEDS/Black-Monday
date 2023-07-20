@@ -53,12 +53,12 @@ bot.hear(/Стоимость бота в месяц/i, async(context, next) => {
   context.send({ message: `Стоимость подписки в месяц 50 рублей`, keyboard: priceBot });
 })
 
-bot.hear(/Когда был создан бот/i, async(context, next) => {
-  context.send({ message: `Разработка бота началась в далеком 09.06.2023`, keyboard: startKeyBoard });
+bot.hear(/Информация о боте/i, async(context, next) => {
+  context.send({ message: `Разработчиками бота являются \n Фролов Владислав \n Объедков Никита \n Пичугин Максим \n\n Разработка бота началась в далеком 11.07.2023 \n Стоимость подписки на бота составляет 50 рублей в месяц`, keyboard: startKeyBoard });
 })
 
-bot.hear(/Купить/i, async(context, next) => {
-  context.send({ message: `Стоимость подписки в месяц 50 рублей \n\n https://qiwi.com/payment/form/99?extra%5B%27account%27%5D=+79026157767&amountInteger=500&currency=643&extra%5B%27comment%27%5D=ЗА%20БОТА`, keyboard: startKeyBoard });
+bot.hear(/Купить подписку/i, async(context, next) => {
+  context.send({ message: `Стоимость подписки 50 рублей в месяц`, keyboard: JSON.stringify({buttons:[[{action:{type:"open_link", link:'https://qiwi.com/payment/form/99?extra%5B%27account%27%5D=+79026157767&amountInteger=500&currency=643&extra%5B%27comment%27%5D=ЗА%20БОТА', label:"Купить"}}], [{action:{type:"text", label:"Назад"}, color:"secondary"}]], inline:false}) });
 })
 
 bot.hear(/^[а-я]{1,5}-\d{2}-\d$/i, async(context, next) => {

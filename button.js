@@ -4,7 +4,7 @@ const startKeyBoard = Keyboard.keyboard ([
     [
       Keyboard.textButton({
         label: 'Расписание',
-        color: Keyboard.PRIMARY_COLOR
+        color: Keyboard.SECONDARY_COLOR
       }),
       Keyboard.textButton({
         label: 'Кабинет',
@@ -14,17 +14,17 @@ const startKeyBoard = Keyboard.keyboard ([
     [
       Keyboard.textButton({
         label: 'Преподователь',
-        color: Keyboard.POSITIVE_COLOR
+        color: Keyboard.PRIMARY_COLOR
       }),
       Keyboard.textButton({
         label: 'Справка',
-        color: Keyboard.POSITIVE_COLOR
+        color: Keyboard.SECONDARY_COLOR
       }),
     ],
     [
       Keyboard.textButton({
         label: 'Купить подписку',
-        color: Keyboard.SECONDARY_COLOR 
+        color: Keyboard.NEGATIVE_COLOR
       }),
     ]
   ])  
@@ -38,13 +38,9 @@ const startKeyBoard = Keyboard.keyboard ([
 
 const Reference = Keyboard.keyboard ([[
     Keyboard.textButton({
-        label: 'Когда был создан бот',
+        label: 'Информация о боте',
         color: 'primary'
     }),
-    Keyboard.textButton({
-        label: 'Стоимость бота в месяц',
-        color: Keyboard.SECONDARY_COLOR
-    })
     ],
     [
         Keyboard.textButton({
@@ -70,7 +66,7 @@ const priceBot = Keyboard.keyboard ([[
 const group = Keyboard.keyboard ([[
     Keyboard.textButton({
         label: 'Первая',
-        color: Keyboard.PRIMARY_COLOR,
+        color: 'primary',
     }),
     Keyboard.textButton({
         label: 'Вторая',
