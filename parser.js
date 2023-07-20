@@ -407,7 +407,6 @@ module.exports = {
                 //  week[DayofWeek][Pars][Массив_ПАРЫ][ПАРА]
               for(let Pars = 1; Pars != 10; Pars++){
                 let temp = Acident(ungroup,week,DayofWeek,Pars) + "\n";
-                 console.log(temp)
                if (temp != 'undefined\n'){
                 let formattedPars = formatNumberWithEmoji(Pars);
                 message += formattedPars + " " + temp;
