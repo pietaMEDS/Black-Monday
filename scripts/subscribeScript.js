@@ -30,8 +30,8 @@ module.exports = {
             // 1 - Требуеться Группа пользователя
             // 2 - Подтверждение Группы
             const fs = require("fs");
-            const fileName = 'E:/Coding Shit/botyara/Botyara/data/users/subscribe.json';
-            const file = require(fileName);
+            const fileName = './data/users/subscribe.json';
+            const file = require('../data/users/subscribe.json');
             let userID = msg.senderId;
             let userInfo ={};
 
