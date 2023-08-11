@@ -1,14 +1,9 @@
 {
-    "090":{
-        "subscribe": true
-    },
-    "180928984":{
-        "subscribe": false
-    },
-    "406739455":{
-        "subscribe": true
-    },
-    "252557850":{
-        "subscribe": false
-    }
+  "user_406739455": {
+    "userID": 406739455,
+    "group": "испвк-21-1",
+    "subscribe": true,
+    "LastNonCommands": "да",
+    "SearchGroup": "испвк-21-1"
+  }
 }

@@ -10,7 +10,7 @@ const service = new VkBot(data.token);
 
 const cmds = require('./commands.js');
 
-const parser = require("./parser.js");
+const parser = require("./scripts/parser.js");
 const { nextTick } = require('process');
 
 const { startKeyBoard, Reference, backButton, priceBot, group } = require("./button.js")
@@ -70,6 +70,9 @@ vk.updates.on('message_new', bot.middleware);
     context.send({ message: `Выбери подгруппу`, keyboard: JSON.stringify({buttons:[[{action:{type:"text", label:"Первая"}, color: "negative" }, {action:{type:"text", label:"Вторая"}, color: "negative" }], [{action:{type:"text", label:"Назад"}, color:"secondary"}]], inline:false}) });
     }
   })
+  bot.hear(/^[а-я]{1}\d{3}/i, async(context, next) =>{
+    console.log('accept');
+  })
   
   bot.hear(/Первая/i, async(context, next) => {
     if(WhatUser(context)){
@@ -90,15 +93,13 @@ vk.updates.on('message_new', bot.middleware);
 
 function WhatUser(msg){
   let data = require('./data/users/subscribe.json');
-  if (data[msg.senderId] === undefined){
-    // msg.send("Ваша подписка неактивна");
+  if (data['user_'+msg.senderId] === undefined){
     return false;
   } 
-  else if(data[msg.senderId].subscribe){
+  else if(data['user_'+msg.senderId].subscribe){
     return true;
   }
   else{
-    // msg.send("Ваша подписка неактивна");
     return false;
   }
 }

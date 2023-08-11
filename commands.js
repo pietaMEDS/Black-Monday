@@ -6,7 +6,10 @@ const { HearManager } = require('@vk-io/hear');
 
 const VkBot = require('node-vk-bot-api');
 
-const parser = require("./parser.js");
+const scripts = {
+  parser: require("./scripts/parser.js"),
+  subscribe: require("./scripts/subscribeScript.js")
+}
 
 const service = new VkBot(data.token);
 
@@ -20,56 +23,34 @@ vk.updates.on('message_new', (context, next) => {
 	context.state.command = messagePayload && messagePayload.command
 		? messagePayload.command
 		: null;
-    console.log('"' + context.text + '"' +' by ' + context.senderId.toString());
-    if (WhatUser(context)){
+    // console.log('"' + context.text + '"' +' by ' + context.senderId.toString());
+    if (scripts.subscribe.checkUser(context)){
       textToArray(context);
       return next();
     }
 });
-
-async function WhatUser(msg){
-  let data = require('./data/users/subscribe.json');
-  console.log(data[msg.senderId])
-  if (data[msg.senderId] == undefined){
-    msg.send("Ваша подписка неактивна");
-    return false;
-  }
-  else if(data[msg.senderId].subscribe){
-    return true;
-  }
-  else{
-    msg.send("Ваша подписка неактивна");
-    return false;
-  }
-  // data[msg.senderId] ? undefined:
-  // console.log(data[msg.senderId])
-  // // data[090]
-}
 
 function textToArray(msg){
     let textArray = msg.text.split(' ');
     findCommand(textArray, msg)
 }
 
-function findCommand(textarr, msg){       
-
-  // if (msg.text.split('-').length == 3) {
-  //   let week = parser.parse(msg.text.toLowerCase());
-  //   parser.output(msg,ungroup, week);
-  // }       
+function findCommand(textarr, msg){        
 
   let cmd = textarr[0];     
     switch (cmd.toLowerCase()) {      
         case 'привет':
           hello(msg);
           break;
-
+        
+        case 'Первая':
+        case 'Вторая':
         case 'start':
         case 'назад': 
-        case 'кабинет': 
-        case 'преподователь':
-        case 'расписание':
-        case 'справка':
+        case '🚪кабинет': 
+        case '🎓преподователь':
+        case '📅расписание':
+        case '📜справка':
         case 'когда был создан бот':
           console.log('%ccall: Button ' + cmd + " by " + msg.senderId, 'color:green');
           break;
@@ -78,16 +59,8 @@ function findCommand(textarr, msg){
           stoprequest();
           break;
 
-          case 'test':
-            if(textarr[1].toLowerCase() == 'нечетная' || textarr[1].toLowerCase() == 'чётная' || textarr[1].toLowerCase() == 'четная' || textarr[1].toLowerCase() == 'нечётная'){
-              test(textarr[1].toLowerCase(),msg);
-            } else{
-            msg.send('Введите чётность недели. Пример "test Чётная"');
-            }
-            break;
-
         default:
-          console.log('%cWarning: Команда '+cmd.toLowerCase()+' не найдена', 'color:orange');
+          console.log('%cWarning: Команда '+cmd.toLowerCase()+' не найдена \nПолная комманда "'+msg.text+'" от '+ msg.senderId, 'color:orange');
           break;
     }
 }
@@ -104,7 +77,6 @@ service.startPolling((err) => {
 
   function stoprequest(){
     console.log('%cPROCESS STOPED', 'color:red')
-    err = true;
     vk.updates.stop();
     service.stop();
   }
