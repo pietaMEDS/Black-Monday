@@ -1,9 +1,10 @@
+
 module.exports = {
-    checkUser: function(msg){
+    checkUser: function(msg, username){
         let data = require('../data/users/subscribe.json');
         if (data["user_"+msg.senderId] == undefined){
             msg.send("Вы новый пользователь? Прекрасно! сейчас настроюсь под вас.");
-            Register(msg,0);
+            Register(msg,0,username);
             msg.send("Какая ваша группа?");
             return false;
         }
@@ -23,7 +24,7 @@ module.exports = {
             return true;
         }
 
-        async function Register(msg,status){ 
+        async function Register(msg,status,username){ 
             // msg - Сообщение пользователя
             // status - Статус записи данных (таблица ниже)
             // 0 - Нет данных о пользователе
@@ -38,8 +39,9 @@ module.exports = {
             switch (status){
                 case 0:
                     userInfo={
-                        userID
-                    }
+                        userID,
+                        username
+                    };
                     eval("file.user_" + userID + " = userInfo;");
                     // file.user=userInfo;
                     fs.writeFile(fileName,JSON.stringify(file, null, 2), function writeJSON(err) {

@@ -1,3 +1,4 @@
+let user;
 const data = require('./data.json');
 
 const { VK, Keyboard, getRandomId } = require('vk-io');
@@ -16,6 +17,12 @@ const service = new VkBot(data.token);
 const vk = new VK({
     token: 'vk1.a.R02T_0UFLYce8ahpwPKlwHGBHQvfWCLzWL2wPxvOTL5NzBGGBkKmR_z4oLaOZ4io4T0_1Wxt_PfYYJXZ_LnKpZ0Fzt2JHktQbDqpXZM8PFsDlhK7Y8MDdqVzXSlmTU77FAs0zY9HXV86vSfy1gixQrBh0fYSUS0tXl-p4hRFYBcpTZTehtYMUrLRo1xQBBMiha4uAYu8CsEyAvOCSJsNoQ'
 })
+
+  async function GetUserName(context){
+    let [userData]= await vk.api.users.get({user_id: context.senderId});
+    return userData.first_name;
+  }
+
 const bot = new HearManager();
 
 vk.updates.on('message_new', (context, next) => {
@@ -24,7 +31,8 @@ vk.updates.on('message_new', (context, next) => {
 		? messagePayload.command
 		: null;
     // console.log('"' + context.text + '"' +' by ' + context.senderId.toString());
-    if (scripts.subscribe.checkUser(context)){
+    let username = GetUserName(context)
+    if (scripts.subscribe.checkUser(context, username)){
       textToArray(context);
       return next();
     }
@@ -61,6 +69,7 @@ function findCommand(textarr, msg){
 
         default:
           console.log('%cWarning: Команда '+cmd.toLowerCase()+' не найдена \nПолная комманда "'+msg.text+'" от '+ msg.senderId, 'color:orange');
+          user = vk.api.users.get({user_id: msg.senderId});
           break;
     }
 }
