@@ -1,10 +1,11 @@
 {
   "user_406739455": {
     "userID": 406739455,
-    "username": {},
-    "group": "испвк-21-1",
+    "group": "ИСПВК-21-1",
+    "confirm": true,
+    "subgroup": 2,
     "subscribe": true,
-    "LastNonCommands": "да",
-    "SearchGroup": "испвк-21-1"
+    "SearchGroup": "ИСПВК-21-1",
+    "LastNonCommands": "[club221045315|@club221045315] Вторая"
   }
 }

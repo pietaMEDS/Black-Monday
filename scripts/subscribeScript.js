@@ -1,10 +1,10 @@
 
 module.exports = {
-    checkUser: function(msg, username){
+    checkUser: function(msg){
         let data = require('../data/users/subscribe.json');
         if (data["user_"+msg.senderId] == undefined){
             msg.send("Вы новый пользователь? Прекрасно! сейчас настроюсь под вас.");
-            Register(msg,0,username);
+            Register(msg,0);
             msg.send("Какая ваша группа?");
             return false;
         }
@@ -12,9 +12,12 @@ module.exports = {
             Register(msg,1);
             return false;
         }
-        else if(data["user_"+msg.senderId].subscribe == undefined){
+        else if(data["user_"+msg.senderId].confirm == undefined){
             Register(msg,2);
             return false;
+        }
+        else if(data["user_"+msg.senderId].subgroup == undefined){
+            Register(msg,3)
         }
         else if(data["user_"+msg.senderId].subscribe == false){
             msg.send("Вы не можете пользоваться ботом");
@@ -23,8 +26,9 @@ module.exports = {
         else{
             return true;
         }
+        
 
-        async function Register(msg,status,username){ 
+        async function Register(msg,status){ 
             // msg - Сообщение пользователя
             // status - Статус записи данных (таблица ниже)
             // 0 - Нет данных о пользователе
@@ -40,7 +44,6 @@ module.exports = {
                 case 0:
                     userInfo={
                         userID,
-                        username
                     };
                     eval("file.user_" + userID + " = userInfo;");
                     // file.user=userInfo;
@@ -72,19 +75,53 @@ module.exports = {
                         msg.send("Какая ваша группа?");
                         }
                     else{
-                        
-                        eval("file.user_" + userID + ".subscribe = true;");
-                        eval("file.user_" + userID + ".LastNonCommands = msg.text");
-                        eval("file.user_" + userID + ".SearchGroup = file.user_" + userID + ".group;");
+                        eval("file.user_" + userID + ".confirm = true;");
                         fs.writeFile(fileName,JSON.stringify(file, null, 2), function writeJSON(err) {
-                        if (err) return console.log(err);
-
-                        console.log('Информация о '+userID+' загружено |100%|');
-                        msg.send("Чтобы начать напишите start, Это будет первый и последний раз!")
-                    });
+                            if (err) return console.log(err);
+                        });
+                        msg.send("Какая ваша подгруппа? (1 или 2)");
+                        }
+                break;
+                case 3:
+                    if(msg.text == 1){
+                        eval("file.user_" + userID + ".subgroup = 1;");
+                        fs.writeFile(fileName,JSON.stringify(file, null, 2), function writeJSON(err) {
+                            if (err) return console.log(err);
+                        });
+                        console.log('Информация о '+userID+' загружено |50%|');
+                        Register(msg,4);
+                    }else if(msg.text == 2){
+                        eval("file.user_" + userID + ".subgroup = 2;");
+                        fs.writeFile(fileName,JSON.stringify(file, null, 2), function writeJSON(err) {
+                            if (err) return console.log(err);
+                        });
+                        console.log('Информация о '+userID+' загружено |50%|');
+                        Register(msg,4);
+                    }else{
+                        msg.send("Какая ваша подгруппа? (1 или 2)");
                     }
+                break;
+                case 4:
+                    eval("file.user_" + userID + ".subscribe = true;");
+                    eval("file.user_" + userID + ".SearchGroup = file.user_" + userID + ".group;");
+                    fs.writeFile(fileName,JSON.stringify(file, null, 2), function writeJSON(err) {
+                        if (err) return console.log(err);
+                            console.log('Информация о '+userID+' загружено |100%|');
+                            msg.send("Чтобы начать напишите start, Это будет первый и последний раз!")
+                        }
+                    );
                 break;
             }
         }
+    },
+    LastCommandsLog: function(msg){
+        const fs = require("fs");
+        const fileName = './data/users/subscribe.json';
+        const file = require('../data/users/subscribe.json')
+        eval("file.user_" + msg.senderId + ".LastNonCommands = msg.text;");
+        fs.writeFile(fileName,JSON.stringify(file, null, 2), function writeJSON(err) {
+            if (err) return console.log(err);
+            }
+        );
     }
 }
