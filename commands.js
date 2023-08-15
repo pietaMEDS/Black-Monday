@@ -22,7 +22,7 @@ const vk = new VK({
     let [userData]= await vk.api.users.get({user_id: context.senderId});
     return userData.first_name;
   }
-
+  
 const bot = new HearManager();
 
 vk.updates.on('message_new', (context, next) => {
