@@ -392,6 +392,7 @@ module.exports = {
         let message = "";
         if(DayofWeek<=3){
             for(DayofWeek; DayofWeek <= 3;DayofWeek++){
+                message += DaytoRus(DayofWeek)+"\n"
                 // week[DayofWeek][Pars][Массив_ПАРЫ][ПАРА]
                for(let Pars = 1; Pars != 10; Pars++){
                 let temp = Acident(ungroup,week,DayofWeek,Pars) + "\n";
@@ -405,11 +406,11 @@ module.exports = {
             for(DayofWeek; DayofWeek <= 6;DayofWeek++){
                 message += DaytoRus(DayofWeek)+"\n"
                 //  week[DayofWeek][Pars][Массив_ПАРЫ][ПАРА]
-              for(let Pars = 1; Pars != 10; Pars++){
+                for(let Pars = 1; Pars != 10; Pars++){
                 let temp = Acident(ungroup,week,DayofWeek,Pars) + "\n";
-               if (temp != 'undefined\n'){
-                let formattedPars = formatNumberWithEmoji(Pars);
-                message += formattedPars + " " + temp;
+                if (temp != 'undefined\n'){
+                    let formattedPars = formatNumberWithEmoji(Pars);
+                    message += formattedPars + " " + temp;
               }
               }
             }
