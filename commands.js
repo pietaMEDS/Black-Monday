@@ -26,7 +26,8 @@ vk.updates.on('message_new', (context, next) => {
 		? messagePayload.command
 		: null;
     // console.log('"' + context.text + '"' +' by ' + context.senderId.toString());
-    if (scripts.subscribe.checkUser(context)){
+    let username = GetUserName(context)
+    if (scripts.subscribe.checkUser(context, username)){
       textToArray(context);
       return next();
     }

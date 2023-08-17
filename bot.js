@@ -15,6 +15,8 @@ const { nextTick } = require('process');
 
 const { startKeyBoard, Reference, backButton, priceBot, group } = require("./button.js")
 
+const subData = require('./data/users/subscribe.json')
+
 const vk = new VK({
     token: data.token
 });
@@ -66,6 +68,7 @@ vk.updates.on('message_new', bot.middleware);
   
   bot.hear(/^[а-я]{1,5}-\d{2}-\d$/i, async(context, next) => {
     if(WhatUser(context)){
+    SearchGroup(context);
     week = parser.parse(context.text.toLowerCase());
     context.send({ message: `Выбери подгруппу`, keyboard: JSON.stringify({buttons:[[{action:{type:"text", label:"Первая"}, color: "negative" }, {action:{type:"text", label:"Вторая"}, color: "negative" }], [{action:{type:"text", label:"Назад"}, color:"secondary"}]], inline:false}) });
     }
@@ -76,20 +79,32 @@ vk.updates.on('message_new', bot.middleware);
   
   bot.hear(/Первая/i, async(context, next) => {
     if(WhatUser(context)){
-    parser.output(context,'Первая', week);
+    let groupName;
+    eval('groupName = parser.parse(subData.user_' + context.senderId + '.SearchGroup.toLowerCase())');
+    parser.output(context,'Первая', groupName);
     }
   })
   
   bot.hear(/Вторая/i, async(context, next) => {
     if(WhatUser(context)){
-    parser.output(context,'Вторая', week);
+      let groupName;
+      eval('groupName = parser.parse(subData.user_' + context.senderId + '.SearchGroup.toLowerCase())');
+      parser.output(context,'Первая', groupName);
     }
   })
   
-  bot.hear(/Купить подписку💰/i, async(context, next) => {
-    context.send({ message: `Стоимость подписки 50 рублей в месяц`, keyboard: JSON.stringify({buttons:[[{action:{type:"open_link", link:'https://qiwi.com/payment/form/99?extra%5B%27account%27%5D=+79026157767&amountInteger=500&currency=643&extra%5B%27comment%27%5D=ЗА%20БОТА', label:"Купить"}}], [{action:{type:"text", label:"Назад"}, color:"secondary"}]], inline:false}) });
-  })
-  
+function SearchGroup (msg) {
+  let data = require('./data/users/subscribe.json');
+  const fs = require("fs");
+  const fileName = './data/users/subscribe.json';
+
+  eval("data.user_" + msg.senderId + ".SearchGroup = msg.text")
+
+  fs.writeFile(fileName, JSON.stringify(data, null, 2), function writeJSON(err) {
+    if (err) return console.log(err);
+    console.log('Тест');
+    });
+}
 
 function WhatUser(msg){
   let data = require('./data/users/subscribe.json');
