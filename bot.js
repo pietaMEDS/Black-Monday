@@ -22,7 +22,7 @@ const vk = new VK({
 });
 
 let flag = false;
-let changeGroup = false;
+let changeGroup = false;6
 
 const bot = new HearManager();
 
@@ -55,7 +55,7 @@ vk.updates.on('message_new', bot.middleware);
   bot.hear(/📅Расписание/i, async(context, next) => {
     flag = true;
     if(WhatUser(context)){
-    context.send({ message: `Расписание какой группы вам нужно?`, keyboard: JSON.stringify({buttons:[[{action:{type:"text", label:"Моя группа"}, color:"primary"}, {action:{type:"text", label:"Другая группа"}, color:"primary"}] ,[{action:{type:"text", label:"Назад"}, color:"secondary"}]], inline: false}) });
+    context.send({ message: `Расписание какой группы вам нужно?`, keyboard: JSON.stringify({buttons:[[{action:{type:"text", label:"Моя группа"}, color:"primary"}] ,[{action:{type:"text", label:"Назад"}, color:"secondary"}]], inline: false}) });
     }
   })
   
@@ -63,9 +63,9 @@ vk.updates.on('message_new', bot.middleware);
     context.send({ message: `хуй знаеть че тут писать ваще`, keyboard: JSON.stringify({buttons:[[{action:{type:"text", label:"Назад"}, color:"secondary"}]], inline:false}) });
   })
 
-  bot.hear(/Другая группа/i, async(context, next) => {
-    context.send({ message: `Введите группу`, keyboard: JSON.stringify({buttons:[[{action:{type:"text", label:"Назад"}, color:"secondary"}]], inline:false}) });
-  })
+  // bot.hear(/Другая группа/i, async(context, next) => {
+  //   context.send({ message: `Введите группу`, keyboard: JSON.stringify({buttons:[[{action:{type:"text", label:"Назад"}, color:"secondary"}]], inline:false}) });
+  // })
 
   bot.hear(/📜Справка/i, async(context, next) => {
     context.send({ message: `О нас`, keyboard: JSON.stringify({buttons:[[{action:{type:"text", label:"Когда был создан бот"}, color: "primary" }, {action:{type:"text", label:"Стоимость бота в месяц"}, color: "primary" }], [{action:{type:"text", label:"Назад"}, color:"secondary"}]], inline:false}) });
@@ -101,7 +101,6 @@ vk.updates.on('message_new', bot.middleware);
     if (changeGroup) {
       if(WhatUser(context)){
       switchGroup(context);
-      SearchGroup(context);
       week = parser.parse(context.text.toLowerCase());
       context.send({ message: `Ваша группа изменена`, keyboard: startKeyBoard });
       }
@@ -116,6 +115,7 @@ vk.updates.on('message_new', bot.middleware);
   bot.hear(/Первая/i, async(context, next) => {
     if(WhatUser(context)){
     let groupName;
+    context.send({ message: `Вы вернулись назад`, keyboard: startKeyBoard })
     eval('groupName = parser.parse(subData.user_' + context.senderId + '.SearchGroup.toLowerCase())');
     parser.output(context,'Первая', groupName);
     }
@@ -124,6 +124,7 @@ vk.updates.on('message_new', bot.middleware);
   bot.hear(/Вторая/i, async(context, next) => {
     if(WhatUser(context)){
       let groupName;
+      context.send({ message: `Вы вернулись назад`, keyboard: startKeyBoard })
       eval('groupName = parser.parse(subData.user_' + context.senderId + '.SearchGroup.toLowerCase())');
       parser.output(context,'Первая', groupName);
     }

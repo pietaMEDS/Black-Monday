@@ -115,15 +115,5 @@ module.exports = {
                 break;
             }
         }
-    },
-    LastCommandsLog: function(msg){
-        const fs = require("fs");
-        const fileName = './data/users/subscribe.json';
-        const file = require('../data/users/subscribe.json')
-        eval("file.user_" + msg.senderId + ".LastNonCommands = msg.text;");
-        fs.writeFile(fileName,JSON.stringify(file, null, 2), function writeJSON(err) {
-            if (err) return console.log(err);
-            }
-        );
     }
 }

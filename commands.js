@@ -26,8 +26,7 @@ vk.updates.on('message_new', (context, next) => {
 		? messagePayload.command
 		: null;
     // console.log('"' + context.text + '"' +' by ' + context.senderId.toString());
-    let username = GetUserName(context)
-    if (scripts.subscribe.checkUser(context, username)){
+    if (scripts.subscribe.checkUser(context)){
       textToArray(context);
       return next();
     }
@@ -64,7 +63,6 @@ function findCommand(textarr, msg){
 
         default:
           console.log('%cWarning: Команда '+cmd.toLowerCase()+' не найдена \nПолная комманда "'+msg.text+'" от '+ msg.senderId, 'color:orange');
-          scripts.subscribe.LastCommandsLog(msg);
           break;
     }
 }
