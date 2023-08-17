@@ -20,6 +20,10 @@ const subData = require('./data/users/subscribe.json')
 const vk = new VK({
     token: data.token
 });
+
+let flag = false;
+let changeGroup = false;
+
 const bot = new HearManager();
 
 let week;
@@ -46,8 +50,7 @@ vk.updates.on('message_new', bot.middleware);
     }
   })
   
-  let flag = false;
-  let changeGroup = false;
+
 
   bot.hear(/📅Расписание/i, async(context, next) => {
     flag = true;

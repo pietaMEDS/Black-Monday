@@ -5,6 +5,14 @@
     "group": "испвк-21-1",
     "subscribe": true,
     "LastNonCommands": "да",
-    "SearchGroup": "испвк-21-1"
+    "SearchGroup": "КСК-21-1"
+  },
+  "user_180928984": {
+    "userID": 180928984,
+    "username": {},
+    "group": "Испвк-21-1",
+    "subscribe": true,
+    "LastNonCommands": "Да",
+    "SearchGroup": "Испвк-21-1"
   }
 }
