@@ -23,11 +23,12 @@ const startKeyBoard = Keyboard.keyboard ([
   ],
   [
     Keyboard.textButton({
-      label: 'Купить подписку💰',
+      label: 'Изменить свою группу',
       color: Keyboard.SECONDARY_COLOR 
     }),
   ]
-])  
+])
+
   JSON.stringify({buttons:[[{action:{type:"text", label:"Когда был создан бот"}, color: "primary" }, {action:{type:"text", label:"Стоимость бота в месяц"}, color: "primary" }], [{action:{type:"text", label:"Назад"}, color:"secondary"}]], inline:false})
   const backButton = Keyboard.keyboard ([[
     Keyboard.textButton({
@@ -61,6 +62,20 @@ const priceBot = Keyboard.keyboard ([[
             color: Keyboard.NEGATIVE_COLOR
         })
     ]
+])
+
+const changeGroup = Keyboard.keyboard ([[
+  Keyboard.textButton({
+      label: 'Купить',
+      color: Keyboard.SECONDARY_COLOR,
+  }),
+  ],
+  [
+      Keyboard.textButton({
+          label: 'Назад',
+          color: Keyboard.NEGATIVE_COLOR
+      })
+  ]
 ])
 
 const group = Keyboard.keyboard ([[

@@ -20,6 +20,10 @@ const subData = require('./data/users/subscribe.json')
 const vk = new VK({
     token: data.token
 });
+
+let flag = false;
+let changeGroup = false;
+
 const bot = new HearManager();
 
 let week;
@@ -46,16 +50,34 @@ vk.updates.on('message_new', bot.middleware);
     }
   })
   
+
+
   bot.hear(/📅Расписание/i, async(context, next) => {
+    flag = true;
     if(WhatUser(context)){
-    context.send({ message: `Напиши свою группу`, keyboard: JSON.stringify({buttons:[[{action:{type:"text", label:"Назад"}, color:"secondary"}]], inline: false}) });
+    context.send({ message: `Расписание какой группы вам нужно?`, keyboard: JSON.stringify({buttons:[[{action:{type:"text", label:"Моя группа"}, color:"primary"}, {action:{type:"text", label:"Другая группа"}, color:"primary"}] ,[{action:{type:"text", label:"Назад"}, color:"secondary"}]], inline: false}) });
     }
   })
   
+  bot.hear(/Моя группа/i, async(context, next) => {
+    context.send({ message: `хуй знаеть че тут писать ваще`, keyboard: JSON.stringify({buttons:[[{action:{type:"text", label:"Назад"}, color:"secondary"}]], inline:false}) });
+  })
+
+  bot.hear(/Другая группа/i, async(context, next) => {
+    context.send({ message: `Введите группу`, keyboard: JSON.stringify({buttons:[[{action:{type:"text", label:"Назад"}, color:"secondary"}]], inline:false}) });
+  })
+
   bot.hear(/📜Справка/i, async(context, next) => {
     context.send({ message: `О нас`, keyboard: JSON.stringify({buttons:[[{action:{type:"text", label:"Когда был создан бот"}, color: "primary" }, {action:{type:"text", label:"Стоимость бота в месяц"}, color: "primary" }], [{action:{type:"text", label:"Назад"}, color:"secondary"}]], inline:false}) });
   })
+
+  bot.hear(/Изменить свою группу/i, async(context, next) => {
+    changeGroup = true;
+    context.send({ message: `Введите новую группу`, keyboard: JSON.stringify({buttons:[[{action:{type:"text", label:"Назад"}, color:"secondary"}]], inline:false}) });
+  })
+
   
+
   bot.hear(/Стоимость бота в месяц/i, async(context, next) => {
     context.send({ message: `Стоимость подписки в месяц 50 рублей`, keyboard: JSON.stringify({buttons:[[{action:{type:"text", label:"Купить"}, color: "negative" }], [{action:{type:"text", label:"Назад"}, color:"secondary"}]], inline:false}) });
   })
@@ -67,12 +89,26 @@ vk.updates.on('message_new', bot.middleware);
   })
   
   bot.hear(/^[а-я]{1,5}-\d{2}-\d$/i, async(context, next) => {
+    if (flag) {
     if(WhatUser(context)){
     SearchGroup(context);
     week = parser.parse(context.text.toLowerCase());
     context.send({ message: `Выбери подгруппу`, keyboard: JSON.stringify({buttons:[[{action:{type:"text", label:"Первая"}, color: "negative" }, {action:{type:"text", label:"Вторая"}, color: "negative" }], [{action:{type:"text", label:"Назад"}, color:"secondary"}]], inline:false}) });
     }
+    flag = false;
+    }
+
+    if (changeGroup) {
+      if(WhatUser(context)){
+      switchGroup(context);
+      SearchGroup(context);
+      week = parser.parse(context.text.toLowerCase());
+      context.send({ message: `Ваша группа изменена`, keyboard: startKeyBoard });
+      }
+      changeGroup = false;
+      }
   })
+  
   bot.hear(/^[а-я]{1}\d{3}/i, async(context, next) =>{
     console.log('accept');
   })
@@ -92,7 +128,20 @@ vk.updates.on('message_new', bot.middleware);
       parser.output(context,'Первая', groupName);
     }
   })
-  
+
+function switchGroup (msg) {
+  let data = require('./data/users/subscribe.json');
+  const fs = require("fs");
+  const fileName = './data/users/subscribe.json';
+
+  eval("data.user_" + msg.senderId + ".group = msg.text")
+
+  fs.writeFile(fileName, JSON.stringify(data, null, 2), function writeJSON(err) {
+    if (err) return console.log(err);
+    console.log('Тест');
+    });
+}
+
 function SearchGroup (msg) {
   let data = require('./data/users/subscribe.json');
   const fs = require("fs");
