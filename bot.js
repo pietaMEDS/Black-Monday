@@ -15,7 +15,8 @@ const { nextTick } = require('process');
 
 const { startKeyBoard, Reference, backButton, priceBot, group } = require("./button.js")
 
-const subData = require('./data/users/subscribe.json')
+const subData = require('./data/users/subscribe.json');
+const subscribeScript = require('./scripts/subscribeScript');
 
 const vk = new VK({
     token: data.token
@@ -46,7 +47,10 @@ vk.updates.on('message_new', bot.middleware);
     }
   })
   
+
+
   bot.hear(/📅Расписание/i, async(context, next) => {
+    flag = true;
     if(WhatUser(context)){
     context.send({ message: `Напиши свою группу`, keyboard: JSON.stringify({buttons:[[{action:{type:"text", label:"Назад"}, color:"secondary"}]], inline: false}) });
     }
@@ -55,7 +59,25 @@ vk.updates.on('message_new', bot.middleware);
   bot.hear(/📜Справка/i, async(context, next) => {
     context.send({ message: `О нас`, keyboard: JSON.stringify({buttons:[[{action:{type:"text", label:"Когда был создан бот"}, color: "primary" }, {action:{type:"text", label:"Стоимость бота в месяц"}, color: "primary" }], [{action:{type:"text", label:"Назад"}, color:"secondary"}]], inline:false}) });
   })
+
+  bot.hear(/Изменить свою группу/i, async(context, next) => {
+    let fs = require("fs");
+    let fileName = './data/users/subscribe.json';
+    let file = require('./data/users/subscribe.json');
+    let userID = context.senderId;
+    userInfo={
+      userID,
+    };
+    eval("file.user_" + userID + " = userInfo;");
+    fs.writeFile(fileName,JSON.stringify(file, null, 2), function writeJSON(err) {
+      if (err) return console.log(err);
+      console.log('Информация о '+userID+' Сброшена');
+  });
+    context.send("Напишите новую группу");
+  })
+
   
+
   bot.hear(/Стоимость бота в месяц/i, async(context, next) => {
     context.send({ message: `Стоимость подписки в месяц 50 рублей`, keyboard: JSON.stringify({buttons:[[{action:{type:"text", label:"Купить"}, color: "negative" }], [{action:{type:"text", label:"Назад"}, color:"secondary"}]], inline:false}) });
   })
@@ -67,12 +89,25 @@ vk.updates.on('message_new', bot.middleware);
   })
   
   bot.hear(/^[а-я]{1,5}-\d{2}-\d$/i, async(context, next) => {
+    if (flag) {
     if(WhatUser(context)){
     SearchGroup(context);
     week = parser.parse(context.text.toLowerCase());
     context.send({ message: `Выбери подгруппу`, keyboard: JSON.stringify({buttons:[[{action:{type:"text", label:"Первая"}, color: "negative" }, {action:{type:"text", label:"Вторая"}, color: "negative" }], [{action:{type:"text", label:"Назад"}, color:"secondary"}]], inline:false}) });
     }
+    flag = false;
+    }
+
+    if (changeGroup) {
+      if(WhatUser(context)){
+      switchGroup(context);
+      week = parser.parse(context.text.toLowerCase());
+      context.send({ message: `Ваша группа изменена`, keyboard: startKeyBoard });
+      }
+      changeGroup = false;
+      }
   })
+  
   bot.hear(/^[а-я]{1}\d{3}/i, async(context, next) =>{
     console.log('accept');
   })
@@ -80,6 +115,7 @@ vk.updates.on('message_new', bot.middleware);
   bot.hear(/Первая/i, async(context, next) => {
     if(WhatUser(context)){
     let groupName;
+    context.send({ message: `Вы вернулись назад`, keyboard: startKeyBoard })
     eval('groupName = parser.parse(subData.user_' + context.senderId + '.SearchGroup.toLowerCase())');
     parser.output(context,'Первая', groupName);
     }
@@ -88,11 +124,26 @@ vk.updates.on('message_new', bot.middleware);
   bot.hear(/Вторая/i, async(context, next) => {
     if(WhatUser(context)){
       let groupName;
+      context.send({ message: `Вы вернулись назад`, keyboard: startKeyBoard })
       eval('groupName = parser.parse(subData.user_' + context.senderId + '.SearchGroup.toLowerCase())');
       parser.output(context,'Первая', groupName);
     }
   })
   
+
+function switchGroup (msg) {
+  let data = require('./data/users/subscribe.json');
+  const fs = require("fs");
+  const fileName = './data/users/subscribe.json';
+
+  eval("data.user_" + msg.senderId + ".group = msg.text")
+
+  fs.writeFile(fileName, JSON.stringify(data, null, 2), function writeJSON(err) {
+    if (err) return console.log(err);
+    console.log('Тест');
+    });
+}
+
 function SearchGroup (msg) {
   let data = require('./data/users/subscribe.json');
   const fs = require("fs");
