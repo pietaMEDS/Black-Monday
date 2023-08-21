@@ -15,14 +15,15 @@ const { nextTick } = require('process');
 
 const { startKeyBoard, Reference, backButton, priceBot, group } = require("./button.js")
 
-const subData = require('./data/users/subscribe.json')
+const subData = require('./data/users/subscribe.json');
+const subscribeScript = require('./scripts/subscribeScript');
 
 const vk = new VK({
     token: data.token
 });
 
 let flag = false;
-let changeGroup = false;6
+let changeGroup = false;
 
 const bot = new HearManager();
 
@@ -72,8 +73,19 @@ vk.updates.on('message_new', bot.middleware);
   })
 
   bot.hear(/Изменить свою группу/i, async(context, next) => {
-    changeGroup = true;
-    context.send({ message: `Введите новую группу`, keyboard: JSON.stringify({buttons:[[{action:{type:"text", label:"Назад"}, color:"secondary"}]], inline:false}) });
+    let fs = require("fs");
+    let fileName = './data/users/subscribe.json';
+    let file = require('./data/users/subscribe.json');
+    let userID = context.senderId;
+    userInfo={
+      userID,
+    };
+    eval("file.user_" + userID + " = userInfo;");
+    fs.writeFile(fileName,JSON.stringify(file, null, 2), function writeJSON(err) {
+      if (err) return console.log(err);
+      console.log('Информация о '+userID+' Сброшена');
+  });
+    context.send("Напишите новую группу");
   })
 
   
@@ -129,6 +141,7 @@ vk.updates.on('message_new', bot.middleware);
       parser.output(context,'Вторая', groupName);
     }
   })
+  
 
 function switchGroup (msg) {
   let data = require('./data/users/subscribe.json');
