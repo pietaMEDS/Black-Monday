@@ -382,6 +382,9 @@ module.exports = {
 },
 
     output:function(msg,ungroup,week){
+        let groupName 
+        let userData = require("../data/users/subscribe.json");
+        eval("groupName = userData.user_" + msg.senderId + ".SearchGroup");
         if(ungroup == 'Первая'){
             ungroup = 1;
         } else if (ungroup == 'Вторая'){
@@ -392,7 +395,7 @@ module.exports = {
         let message = "";
         if(DayofWeek<=3){
             for(DayofWeek; DayofWeek <= 3;DayofWeek++){
-                message += DaytoRus(DayofWeek)+"\n"
+                message += DaytoRus(DayofWeek,groupName)+"\n"
                 // week[DayofWeek][Pars][Массив_ПАРЫ][ПАРА]
                for(let Pars = 1; Pars != 10; Pars++){
                 let temp = Acident(ungroup,week,DayofWeek,Pars) + "\n";
@@ -404,7 +407,7 @@ module.exports = {
             }
         } else {
             for(DayofWeek; DayofWeek <= 6;DayofWeek++){
-                message += DaytoRus(DayofWeek)+"\n"
+                message += DaytoRus(DayofWeek,groupName)+"\n"
                 //  week[DayofWeek][Pars][Массив_ПАРЫ][ПАРА]
                 for(let Pars = 1; Pars != 10; Pars++){
                 let temp = Acident(ungroup,week,DayofWeek,Pars) + "\n";
@@ -416,32 +419,33 @@ module.exports = {
             }
         }
 
-        function DaytoRus(DayofWeek){
-            switch(DayofWeek){
+        function DaytoRus(DayofWeek, groupName) {
+            let result = "\n"; 
+            switch (DayofWeek) {
                 case 0:
-                    return "Воскресенье"
+                    result += "Расписание для группы " + groupName + " на Воскресенье";
                     break;
                 case 1:
-                    return "Понедельник"
+                    result += "Расписание для группы " + groupName + " на Понедельник";
                     break;
                 case 2:
-                    return "Вторник"
+                    result += "Расписание для группы " + groupName + " на Вторник";
                     break;
                 case 3:
-                    return "Среда"
+                    result += "Расписание для группы " + groupName + " на Среду";
                     break;
                 case 4:
-                    return "Четверг"
+                    result += "Расписание для группы " + groupName + " на Четверг";
                     break;
                 case 5:
-                    return "Пятница"
+                    result += "Расписание для группы " + groupName + " на Пятницу";
                     break;
                 case 6:
-                    return "Суббота"
+                    result += "Расписание для группы " + groupName + " на Субботу";
                     break;
             }
+            return result;
         }
-
         function formatNumberWithEmoji(number) {
             const numberEmojis = ["1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣", "6️⃣", "7️⃣", "8️⃣", "9️⃣"];
             const numberString = String(number);
