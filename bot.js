@@ -126,7 +126,7 @@ vk.updates.on('message_new', bot.middleware);
       let groupName;
       context.send({ message: `Вы вернулись назад`, keyboard: startKeyBoard })
       eval('groupName = parser.parse(subData.user_' + context.senderId + '.SearchGroup.toLowerCase())');
-      parser.output(context,'Первая', groupName);
+      parser.output(context,'Вторая', groupName);
     }
   })
 
