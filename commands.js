@@ -1,5 +1,8 @@
 let user;
-const data = require('./data.json');
+require('dotenv').config();
+const dotenv = require('dotenv');
+dotenv.config();
+const TOKEN = process.env.TOKEN
 
 const { VK, Keyboard, getRandomId } = require('vk-io');
 
@@ -12,10 +15,10 @@ const scripts = {
   subscribe: require("./scripts/subscribeScript.js")
 }
 
-const service = new VkBot(data.token);
+const service = new VkBot(TOKEN);
 
 const vk = new VK({
-    token: 'vk1.a.R02T_0UFLYce8ahpwPKlwHGBHQvfWCLzWL2wPxvOTL5NzBGGBkKmR_z4oLaOZ4io4T0_1Wxt_PfYYJXZ_LnKpZ0Fzt2JHktQbDqpXZM8PFsDlhK7Y8MDdqVzXSlmTU77FAs0zY9HXV86vSfy1gixQrBh0fYSUS0tXl-p4hRFYBcpTZTehtYMUrLRo1xQBBMiha4uAYu8CsEyAvOCSJsNoQ'
+    token: TOKEN
 })
 
 const bot = new HearManager();

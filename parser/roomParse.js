@@ -13,15 +13,15 @@ let groups = [];
                 });
                 console.log(groups);
             });
-            // console.log(groups);
+            console.log(groups);
 
-            // for(group in groups){
-            //     if(group != undefined){
-            //         let workbook = XLSX.readFile('./data/groups/' + group + '/data.xlsx');
-            //         console.log(workbook);
-            //     }
-            // }
+            for(group in groups){
+                if(group != undefined){
+                    let workbook = XLSX.readFile('./data/groups/' + group + '/data.xlsx');
+                    console.log(workbook);
+                }
+            }
 
 
-        //     const XLSX = require('xlsx');
-        // let workbook = XLSX.readFile('./data/groups/' + groupsName+ '/data.xlsx');
+            const XLSX = require('xlsx');
+        let workbook = XLSX.readFile('./data/groups/' + groupsName+ '/data.xlsx');

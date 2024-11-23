@@ -1,4 +1,7 @@
-const data = require('./data.json');
+require('dotenv').config();
+const dotenv = require('dotenv');
+dotenv.config();
+const TOKEN = process.env.TOKEN
 
 const { VK, Keyboard, getRandomId } = require('vk-io');
 
@@ -6,7 +9,7 @@ const { HearManager } = require('@vk-io/hear');
 
 const VkBot = require('node-vk-bot-api');
 
-const service = new VkBot(data.token);
+const service = new VkBot(TOKEN);
 
 const cmds = require('./commands.js');
 
@@ -19,7 +22,7 @@ const subData = require('./data/users/subscribe.json');
 const subscribeScript = require('./scripts/subscribeScript');
 
 const vk = new VK({
-    token: data.token
+    token: TOKEN
 });
 
 let flag = false;
@@ -121,7 +124,7 @@ vk.updates.on('message_new', bot.middleware);
   })
   
   bot.hear(/^[а-я]{1}\d{3}/i, async(context, next) =>{
-    console.log('accept');
+    
   })
   
   bot.hear(/Первая/i, async(context, next) => {
