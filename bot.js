@@ -64,7 +64,17 @@ vk.updates.on('message_new', bot.middleware);
   })
   
   bot.hear(/Моя группа/i, async(context, next) => {
-    context.send({ message: `хуй знаеть че тут писать ваще`, keyboard: JSON.stringify({buttons:[[{action:{type:"text", label:"Назад"}, color:"secondary"}]], inline:false}) });
+    // context.send({ message: `хуй знаеть че тут писать ваще`, keyboard: JSON.stringify({buttons:[[{action:{type:"text", label:"Назад"}, color:"secondary"}]], inline:false}) });
+    if (flag) {
+      if(WhatUser(context)){
+        let data = require('./data/users/subscribe.json');
+        console.log(data['user_'+context.senderId].group);
+      SearchGroup(context, true);
+      week = parser.parse(data['user_'+context.senderId].group.toLowerCase());
+      context.send({ message: `Выбери подгруппу`, keyboard: JSON.stringify({buttons:[[{action:{type:"text", label:"Первая"}, color: "negative" }, {action:{type:"text", label:"Вторая"}, color: "negative" }], [{action:{type:"text", label:"Назад"}, color:"secondary"}]], inline:false}) });
+      }
+      flag = false;
+      }
   })
 
   // bot.hear(/Другая группа/i, async(context, next) => {
@@ -159,12 +169,18 @@ function switchGroup (msg) {
     });
 }
 
-function SearchGroup (msg) {
+function SearchGroup (msg, mygroup) {
   let data = require('./data/users/subscribe.json');
   const fs = require("fs");
   const fileName = './data/users/subscribe.json';
 
-  eval("data.user_" + msg.senderId + ".SearchGroup = msg.text")
+  if (mygroup) {
+    eval("data.user_" + msg.senderId + ".SearchGroup = data['user_'+msg.senderId].group")
+  }
+  else{
+    eval("data.user_" + msg.senderId + ".SearchGroup = msg.text")
+  }
+
 
   fs.writeFile(fileName, JSON.stringify(data, null, 2), function writeJSON(err) {
     if (err) return console.log(err);
