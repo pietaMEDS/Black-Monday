@@ -680,31 +680,24 @@ module.exports = {
       saturday,
     ];
 
-    let changesObj = parseChanges();
-
-    // console.log(week_pars[1][2]);
-
-    changesObj.forEach((group) => {
-      if (group.name.toLowerCase() == groupsName.toLowerCase()) {
-        if (group.firstday.name.toLowerCase() == "понедельник") {
-          group.firstday.change.forEach((el, elkey) => {
-            // console.log(formatChanges(el))
-            // console.log("Пара: "+(elkey+1));
-            // week_pars[1][elkey+1] = formatChanges(el)
-
-            let formatedChanges = formatChanges(el);
-            if (formatedChanges != undefined) {
-              if (formatedChanges[0] == week_pars[1][elkey + 1][0]) {
-                if (formatedChanges[1][1] == undefined) {
-                  week_pars[1][elkey + 1][0] = 0;
-                  week_pars[1][elkey + 1][1] = ["Пара отменена", "", ""];
+    // Apply schedule changes
+    const changesObj = parseChanges();
+    changesObj.forEach(group => {
+      if (group.name.toLowerCase() === groupsName.toLowerCase()) {
+        if (group.firstday?.name?.toLowerCase() === "понедельник") {
+          group.firstday.change.forEach((change, index) => {
+            const formattedChange = formatChanges(change);
+            if (formattedChange && week_pars[1][index + 1]) {  // Add check for week_pars
+              const lessonNum = index + 1;
+              // Add null check before accessing array index
+              if (formattedChange[0] === week_pars[1][lessonNum]?.[0]) {
+                if (formattedChange[1][1] === undefined) {
+                  week_pars[1][lessonNum] = [0, ["Пара отменена", "", ""]];
+                } else {
+                  week_pars[1][lessonNum][1] = formattedChange[1];
                 }
-                week_pars[1][elkey + 1][1] = formatedChanges[1];
               }
             }
-            // console.log("Merging:");
-            // console.log(week_pars[1][elkey+1][1]);
-            // console.log(formatChanges(el)[1]);
           });
         }
       }
