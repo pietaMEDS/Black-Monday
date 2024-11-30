@@ -1,11 +1,11 @@
 {
   "user_406739455": {
     "userID": 406739455,
-    "group": "Испвк-21-1",
+    "group": "ИСпП-22-1",
     "confirm": true,
     "subgroup": 2,
     "subscribe": true,
-    "SearchGroup": "Испвк-21-1"
+    "SearchGroup": "ИСпП-22-1"
   },
   "user_180928984": {
     "userID": 180928984,
@@ -22,5 +22,9 @@
     "subgroup": 2,
     "subscribe": true,
     "SearchGroup": "Испвк 21-1"
+  },
+  "user_252557850": {
+    "userID": 252557850,
+    "group": "испвк-21-1"
   }
 }

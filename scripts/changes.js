@@ -7,13 +7,13 @@ module.exports = {
     jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
 
     let groupPattern = /[а-яА-Я]{0,}[-][0-9]{2,}[-][0-9]{1,}/;
+    let doorPattern = /[А-Я]{1}[0-9]{3}/;
 
     const changesObj = [];
 
     jsonData.forEach((row, rowkey) => {
       row.forEach((cell, cellkey) => {
         if (groupPattern.test(cell)) {
-          // console.log(jsonData[rowkey+1][cellkey]);
           changesObj.push({
             name: cell,
             firstday: {
@@ -61,20 +61,106 @@ module.exports = {
   },
 
   formatChanges: function(change){
+    let doorPattern = /[А-Я]{1}[0-9]{3}/;
     let result = []
     result[1] = []
 
-    result[0] = 4;
-    if (change!=undefined) {
-        result[1][1] = change.trim().split(`\r\n`)[1];
-        result[1][2] = change.trim().split(`\r\n`)[0].trim().slice(-4)
-        // console.log(change.trim().split(`\r\n`));
-        result[1][0] = change.trim().split(`\r\n`)[0].slice(0, -4).trim();
+    console.log(change);
 
+    if(change!=undefined){
+      // console.log(change);
+      // console.log(change.trim().split(`\r\n`));
+      switch(change.trim().split(`\r\n`).length){
+        case 1:
+          result[0] = 4;
+          result[1] = undefined;
+          break;
+        case 2:
+          if(change.trim().split(`\r\n`)[0].trim().slice(2)=="1." || change.trim().split(`\r\n`)[0].trim().slice(2)=="2."){
+            if(change.trim().split(`\r\n`)[0].trim().slice(2)=="1."){
+              result[0] = 1;
+              result[1][0] = change.trim().split(`\r\n`)[0].trim().slice(0, -4).trim();
+              result[1][1] = change.trim().split(`\r\n`)[1];
+              result[1][2] = change.trim().split(`\r\n`)[0].trim().slice(-4);
+            }
+            else{
+              result[0] = 2;
+
+              result[1][0] = change.trim().split(`\r\n`)[0].trim().slice(0, -4).trim();
+              result[1][1] = change.trim().split(`\r\n`)[1];
+              result[1][2] = change.trim().split(`\r\n`)[0].trim().slice(-4);
+            }
+          }
+          else{
+            result[0] = 4;
+            if(doorPattern.test(change.trim().split(`\r\n`)[0].trim().slice(-4))){
+              result[1][1] = change.trim().split(`\r\n`)[1];
+              result[1][2] = change.trim().split(`\r\n`)[0].trim().slice(-4)
+              result[1][0] = change.trim().split(`\r\n`)[0].slice(0, -4).trim();
+            }
+            else{
+              result[1][1] = change.trim().split(`\r\n`)[1];
+              result[1][0] = change.trim().split(`\r\n`)[0].trim();
+              result[1][2] = undefined;
+            }
+          }
+          break;
+        case 3:
+          let parsed = change.trim().split(`\r\n`);
+          result[1] = [[], []];
+          result[0] = 3;
+          if(parsed[0].slice(-2)=="--"){
+            result[1][0] = undefined;
+            if(doorPattern.test(parsed[1].trim().slice(-4))){
+              result[1][1][0] = parsed[1].trim().slice(0, -4).trim();
+              result[1][1][2] = parsed[1].trim().slice(-4);
+              result[1][1][1] = parsed[2].trim();
+            }
+            else{
+              result[1][1][0] = parsed[1].trim();
+              result[1][1][2] = undefined;
+              result[1][1][1] = parsed[2].trim();
+            }
+          }
+          else if(parsed[2].slice(-2)=="--"){
+            result[1][1] = undefined;
+            if(doorPattern.test(parsed[0].trim().slice(-4))){
+              result[1][0][0] = parsed[0].trim().slice(0, -4).trim();
+              result[1][0][2] = parsed[0].trim().slice(-4);
+              result[1][0][1] = parsed[1].trim();
+            }
+            else{
+              result[1][0][0] = parsed[1].trim();
+              result[1][0][2] = undefined;
+              result[1][0][1] = parsed[2].trim();
+            }
+          }
+        break;
+        case 4:
+          if(doorPattern.test(parsed[0].trim().slice(-4))){
+            result[1][0][0] = parsed[0].trim().slice(0, -4).trim();
+            result[1][0][2] = parsed[0].trim().slice(-4);
+            result[1][0][1] = parsed[1].trim();
+          }
+          else{
+            result[1][0][0] = parsed[0].trim();
+            result[1][0][2] = undefined;
+            result[1][0][1] = parsed[1].trim();
+          }
+
+          if(doorPattern.test(parsed[2].trim().slice(-4))){
+            result[1][1][0] = parsed[2].trim().slice(0, -4).trim();
+            result[1][1][2] = parsed[2].trim().slice(-4);
+            result[1][1][1] = parsed[3].trim();
+          } else {
+            result[1][1][0] = parsed[2].trim();
+            result[1][1][2] = undefined;
+            result[1][1][1] = parsed[3].trim();
+          }
+        break;
+      }
+      console.log(result);
         return result;
-    }
-    else if(change!=undefined){
-        return [[]]
-    }
   }
-};
+}
+}
