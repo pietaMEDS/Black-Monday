@@ -1,6 +1,8 @@
 {
   "dependencies": {
     "@vk-io/hear": "^1.1.1",
+    "dotenv": "^16.4.5",
+    "mysql2": "^3.11.5",
     "node-vk-bot-api": "^3.5.0",
     "vk-io": "^4.8.3",
     "xlsx": "^0.18.5"
