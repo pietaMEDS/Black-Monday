@@ -9,19 +9,23 @@
   },
   "name": "botyara",
   "description": "",
-  "version": "0.1.3",
+  "version": "0.4.1",
   "main": "bot.js",
+  "scripts": {
+    "start": "node bot.js",
+    "parse": "node parsFullFile.js"
+  },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/pietaMEDS/Botyara.git"
+    "url": "git+https://github.com/pietaMEDS/Black-Monday.git"
   },
   "keywords": [
     "bot"
   ],
-  "author": "pieta, vlados",
+  "author": "pietaMEDS, nafana123",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/pietaMEDS/Botyara/issues"
+    "url": "https://github.com/pietaMEDS/Black-Monday/issues"
   },
-  "homepage": "https://github.com/pietaMEDS/Botyara#readme"
+  "homepage": "https://github.com/pietaMEDS/Black-Monday#readme"
 }
