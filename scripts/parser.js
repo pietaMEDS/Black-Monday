@@ -1,7 +1,29 @@
 const { formatChanges, parseChanges } = require("./changes");
+require('dotenv').config();
+const dotenv = require('dotenv');
+dotenv.config();
+const mysql = require('mysql2');
+
 
 module.exports = {
   parse: function (groupsName) {
+
+    const connection = mysql.createConnection({
+      host: process.env.DB_HOST,
+      user: process.env.DB_USER,
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_NAME
+    });
+
+    connection.connect((err) => {
+      if (err) {
+        console.error('Ошибка подключения: ' + err.stack);
+        return;
+      }
+      console.log('Подключено к базе данных успешно установленно');
+    });
+
+
     let week_type;
     const XLSX = require("xlsx");
     const workbook = XLSX.readFile(
@@ -702,9 +724,66 @@ module.exports = {
         }
       }
     });
+    today = new Date();
+    const dayOfWeek = DaytoRus(today.getDay());
+    const lessonInfo = week_pars[today.getDay()];
+    if (lessonInfo && lessonInfo.length > 0) {
+      lessonInfo.forEach((info, index) => {
+        if (info && info.length > 0) {
+          const lessonNum = index;
+          const [, [lesson, teacher, cabinet]] = info;
 
+          const data = {
+            group_name: groupsName,
+            subgroup: 1,
+            lesson_number: lessonNum,
+            lesson: lesson,
+            teacher: teacher,
+            cabinet: cabinet,
+            day_of_week: dayOfWeek,
+          };
+          connection.query(
+              'INSERT INTO schedule (group_name, subgroup, lesson_number, lesson, teacher, cabinet, day_of_week) VALUES (?, ?, ?, ?, ?, ?, ?)',
+              [data.group_name, data.subgroup, data.lesson_number, data.lesson, data.teacher, data.cabinet, data.day_of_week],
+              (err) => {
+                if (err) {
+                  console.error('Ошибка при вставке данных:', err);
+                } else {
+                  console.log('Данные успешно вставлены:');
+                }
+              }
+          );
+        }
+      })
+    }
     return week_pars;
+    function DaytoRus(DayofWeek) {
+      switch (DayofWeek) {
+        case 0:
+          return "";
+          break;
+        case 1:
+          return "Понедельник";
+          break;
+        case 2:
+          return "Вторник";
+          break;
+        case 3:
+          return "Среда";
+          break;
+        case 4:
+          return "Четверг";
+          break;
+        case 5:
+          return "Пятница";
+          break;
+        case 6:
+          return "Суббота";
+          break;
+      }
+    }
   },
+
 
   output: function (msg, ungroup, week) {
     if (ungroup == "Первая") {
