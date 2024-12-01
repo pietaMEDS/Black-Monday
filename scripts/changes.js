@@ -61,6 +61,7 @@ module.exports = {
   },
 
   formatChanges: function(change){
+    console.log(change);
     let doorPattern = /[А-Я]{1}[0-9]{3}/;
     let result = [[], [[], []]]
 
@@ -157,6 +158,7 @@ module.exports = {
           }
         break;
       }
+      console.log(result);
         return result;
   }
 }

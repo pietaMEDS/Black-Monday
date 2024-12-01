@@ -56,13 +56,7 @@ vk.updates.on('message_new', bot.middleware);
     context.send({ message: `Напишите фамилию преподавателя`, keyboard: JSON.stringify({buttons:[[{action:{type:"text", label:"Назад"}, color:"secondary"}]], inline:false}) });
     }
   })
-bot.hear(/.*/, async (context) => {
-  if(teachers){
-    const teacherName = context.text;
-    teacher.getTeacher(teacherName, context);
-    teachers = false;
-  }
-});
+
 
   bot.hear(/📅Расписание/i, async(context, next) => {
     flag = true;
@@ -162,7 +156,13 @@ bot.hear(/.*/, async (context) => {
       parser.output(context,'Вторая', groupName);
     }
   })
-  
+  bot.hear(/.*/, async (context) => {
+  if(teachers){
+    const teacherName = context.text;
+    teacher.getTeacher(teacherName, context);
+    teachers = false;
+  }
+});
 
 function switchGroup (msg) {
   let data = require('./data/users/subscribe.json');

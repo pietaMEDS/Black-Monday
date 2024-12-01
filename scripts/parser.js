@@ -696,6 +696,7 @@ module.exports = {
     let week_pars = [[]];
     let sunday = [[]];
     let monday = parse_Monday();
+    console.log(monday);
     let tuesday = parse_Tuesday();
     let wednesday = parse_Wednesday();
     let thursday = parse_Thursday();
@@ -711,22 +712,135 @@ module.exports = {
       saturday,
     ];
 
+
     // Apply schedule changes
     const changesObj = parseChanges();
+    
     changesObj.forEach(group => {
       if (group.name.toLowerCase() === groupsName.toLowerCase()) {
+        console.log(group);
         if (group.firstday?.name?.toLowerCase() === "понедельник") {
           group.firstday.change.forEach((change, index) => {
             const formattedChange = formatChanges(change);
-            if (formattedChange && week_pars[1][index + 1]) {  // Add check for week_pars
+            console.log(formattedChange);
+            console.log(formattedChange && week_pars[1][index + 1]);
+            if (formattedChange) {  // Add check for week_pars
               const lessonNum = index + 1;
               // Add null check before accessing array index
+              console.log(formattedChange[0] === week_pars[1][lessonNum]?.[0]);
               if (formattedChange[0] === week_pars[1][lessonNum]?.[0]) {
                 if (formattedChange[1] === undefined) {
                   week_pars[1][lessonNum] = [formattedChange[0], ["Пара отменена", "", ""]];
                 } else {
                   week_pars[1][lessonNum][1] = formattedChange[1];
                 }
+              }else{
+                week_pars[1][lessonNum] = formattedChange;
+              }
+            }
+          });
+        }
+        if (group.secondday?.name?.toLowerCase() === "вторник") {
+          group.secondday.change.forEach((change, index) => {
+            const formattedChange = formatChanges(change);
+            console.log(formattedChange);
+            console.log(formattedChange && week_pars[2][index + 1]);
+            if (formattedChange) {  // Add check for week_pars
+              const lessonNum = index + 1;
+              // Add null check before accessing array index
+              console.log(formattedChange[0] === week_pars[2][lessonNum]?.[0]);
+              if (formattedChange[0] === week_pars[2][lessonNum]?.[0]) {
+                if (formattedChange[1] === undefined) {
+                  week_pars[2][lessonNum] = [formattedChange[0], ["Пара отменена", "", ""]];
+                } else {
+                  week_pars[2][lessonNum][1] = formattedChange[1];
+                }
+              }else{
+                week_pars[2][lessonNum] = formattedChange;
+              }
+            }
+          });
+        }
+        if (group.thirdday?.name?.toLowerCase() === "среда") {
+          group.thirdday.change.forEach((change, index) => {
+            const formattedChange = formatChanges(change);
+            console.log(formattedChange);
+            console.log(formattedChange && week_pars[3][index + 1]);
+            if (formattedChange) {  // Add check for week_pars
+              const lessonNum = index + 1;
+              // Add null check before accessing array index
+              console.log(formattedChange[0] === week_pars[3][lessonNum]?.[0]);
+              if (formattedChange[0] === week_pars[3][lessonNum]?.[0]) {
+                if (formattedChange[1] === undefined) {
+                  week_pars[3][lessonNum] = [formattedChange[0], ["Пара отменена", "", ""]];
+                } else {
+                  week_pars[3][lessonNum][1] = formattedChange[1];
+                }
+              }else{
+                week_pars[3][lessonNum] = formattedChange;
+              }
+            }
+          });
+        }
+        if (group.firstday?.name?.toLowerCase() === "четверг") {
+          group.firstday.change.forEach((change, index) => {
+            const formattedChange = formatChanges(change);
+            console.log(formattedChange);
+            console.log(formattedChange && week_pars[4][index + 1]);
+            if (formattedChange) {  // Add check for week_pars
+                const lessonNum = index + 1;
+                // Add null check before accessing array index
+                console.log(formattedChange[0] === week_pars[4][lessonNum]?.[0]);
+                if (formattedChange[0] === week_pars[4][lessonNum]?.[0]) {
+                  if (formattedChange[1] === undefined) {
+                    week_pars[4][lessonNum] = [formattedChange[0], ["Пара отменена", "", ""]];
+                  } else {
+                    week_pars[4][lessonNum][1] = formattedChange[1];
+                  }
+                }else{
+                  week_pars[4][lessonNum] = formattedChange;
+                }
+              }
+            });
+        }
+        if (group.secondday?.name?.toLowerCase() === "пятница") {
+          group.secondday.change.forEach((change, index) => {
+            const formattedChange = formatChanges(change);
+            console.log(formattedChange);
+            console.log(formattedChange && week_pars[5][index + 1]);
+            if (formattedChange) {  // Add check for week_pars
+                const lessonNum = index + 1;
+                // Add null check before accessing array index
+                console.log(formattedChange[0] === week_pars[5][lessonNum]?.[0]);
+                if (formattedChange[0] === week_pars[5][lessonNum]?.[0]) {
+                  if (formattedChange[1] === undefined) {
+                    week_pars[5][lessonNum] = [formattedChange[0], ["Пара отменена", "", ""]];
+                  } else {
+                    week_pars[5][lessonNum][1] = formattedChange[1];
+                  }
+                }else{
+                  week_pars[5][lessonNum] = formattedChange;
+                }
+              }
+            });
+        }
+        if (group.thirdday?.name?.toLowerCase() === "суббота") {
+          group.thirdday.change.forEach((change, index) => {
+            const formattedChange = formatChanges(change);
+            console.log(formattedChange);
+            console.log(formattedChange && week_pars[6][index + 1]);
+            if (formattedChange) {  // Add check for week_pars
+              const lessonNum = index + 1;
+              // Add null check before accessing array index
+              console.log(formattedChange[0] === week_pars[6][lessonNum]?.[0]);
+              if (formattedChange[0] === week_pars[6][lessonNum]?.[0]) {
+                if (formattedChange[1] === undefined) {
+                  week_pars[6][lessonNum] = [formattedChange[0], ["Пара отменена", "", ""]];
+                } else {
+                  week_pars[6][lessonNum][1] = formattedChange[1];
+                }
+              }else{
+                week_pars[6][lessonNum] = formattedChange;
               }
             }
           });
@@ -758,7 +872,7 @@ module.exports = {
               [data.group_name, data.subgroup, data.lesson_number, data.lesson, data.teacher, data.cabinet, data.day_of_week],
               (err) => {
                 if (err) {
-                  console.error('Ошибка при вставке данных:', err);
+                  // console.error('Ошибка при вставке данных:', err);
                 }
               }
           );
