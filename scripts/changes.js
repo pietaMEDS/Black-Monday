@@ -64,8 +64,6 @@ module.exports = {
     let doorPattern = /[А-Я]{1}[0-9]{3}/;
     let result = [[], [[], []]]
 
-    console.log(change);
-
     if(change!=undefined){
       // console.log(change);
       // console.log(change.trim().split(`\r\n`));
@@ -137,15 +135,12 @@ module.exports = {
         break;
         case 4:
           parsed = change.trim().split(`\r\n`);
-          console.log(parsed);
           if(doorPattern.test(parsed[0].trim().slice(-4))){
             result[1][0][0] = parsed[0].trim().slice(0, -4).trim();
             result[1][0][2] = parsed[0].trim().slice(-4);
             result[1][0][1] = parsed[1].trim();
           }
           else{
-            console.log(parsed);
-            
             result[1][0][0] = parsed[0].trim();
             result[1][0][2] = undefined;
             result[1][0][1] = parsed[1].trim();
@@ -162,7 +157,6 @@ module.exports = {
           }
         break;
       }
-      console.log(result);
         return result;
   }
 }

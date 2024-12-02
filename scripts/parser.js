@@ -23,6 +23,15 @@ module.exports = {
       console.log('Подключено к базе данных успешно установленно');
     });
 
+    connection.query('DELETE FROM schedule', (err, results) => {
+      if (err) {
+        console.error('Ошибка при очистке таблицы schedule: ' + err.stack);
+        connection.end();
+        return;
+      }
+      console.log('Таблица schedule очищена');
+    })
+
 
     let week_type;
     const XLSX = require("xlsx");
@@ -712,7 +721,6 @@ module.exports = {
             if (formattedChange && week_pars[1][index + 1]) {  // Add check for week_pars
               const lessonNum = index + 1;
               // Add null check before accessing array index
-              console.log(formattedChange);
               if (formattedChange[0] === week_pars[1][lessonNum]?.[0]) {
                 if (formattedChange[1] === undefined) {
                   week_pars[1][lessonNum] = [formattedChange[0], ["Пара отменена", "", ""]];
@@ -726,8 +734,10 @@ module.exports = {
       }
     });
     today = new Date();
-    const dayOfWeek = DaytoRus(today.getDay());
-    const lessonInfo = week_pars[today.getDay()];
+    let DayofWeek = today.getDay();
+    for (let i = DayofWeek; i <= 3; i++) {
+     const day = DaytoRus(i);
+      const lessonInfo = week_pars[i];
     if (lessonInfo && lessonInfo.length > 0) {
       lessonInfo.forEach((info, index) => {
         if (info && info.length > 0) {
@@ -741,7 +751,7 @@ module.exports = {
             lesson: lesson,
             teacher: teacher,
             cabinet: cabinet,
-            day_of_week: dayOfWeek,
+            day_of_week: day,
           };
           connection.query(
               'INSERT INTO schedule (group_name, subgroup, lesson_number, lesson, teacher, cabinet, day_of_week) VALUES (?, ?, ?, ?, ?, ?, ?)',
@@ -749,13 +759,12 @@ module.exports = {
               (err) => {
                 if (err) {
                   console.error('Ошибка при вставке данных:', err);
-                } else {
-                  console.log('Данные успешно вставлены:');
                 }
               }
           );
         }
       })
+    }
     }
     return week_pars;
     function DaytoRus(DayofWeek) {

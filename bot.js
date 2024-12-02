@@ -14,6 +14,8 @@ const service = new VkBot(TOKEN);
 const cmds = require('./commands.js');
 
 const parser = require("./scripts/parser.js");
+
+const teacher = require("./scripts/teacher.js")
 const { nextTick } = require('process');
 
 const { startKeyBoard, Reference, backButton, priceBot, group } = require("./button.js")
@@ -27,6 +29,7 @@ const vk = new VK({
 
 let flag = false;
 let changeGroup = false;
+let teachers = false;
 
 const bot = new HearManager();
 
@@ -47,14 +50,19 @@ vk.updates.on('message_new', bot.middleware);
     context.send({ message: `Напишите кабинет`, keyboard: JSON.stringify({buttons:[[{action:{type:"text", label:"Назад"}, color:"secondary"}]], inline: false}) });
     }
   })
-  
   bot.hear(/🎓Преподователь/i, async(context, next) => {
+    teachers = true;
     if(WhatUser(context)){
     context.send({ message: `Напишите фамилию преподавателя`, keyboard: JSON.stringify({buttons:[[{action:{type:"text", label:"Назад"}, color:"secondary"}]], inline:false}) });
     }
   })
-  
-
+bot.hear(/.*/, async (context) => {
+  if(teachers){
+    const teacherName = context.text;
+    teacher.getTeacher(teacherName, context);
+    teachers = false;
+  }
+});
 
   bot.hear(/📅Расписание/i, async(context, next) => {
     flag = true;
