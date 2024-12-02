@@ -712,9 +712,10 @@ module.exports = {
             if (formattedChange && week_pars[1][index + 1]) {  // Add check for week_pars
               const lessonNum = index + 1;
               // Add null check before accessing array index
+              console.log(formattedChange);
               if (formattedChange[0] === week_pars[1][lessonNum]?.[0]) {
-                if (formattedChange[1][1] === undefined) {
-                  week_pars[1][lessonNum] = [0, ["Пара отменена", "", ""]];
+                if (formattedChange[1] === undefined) {
+                  week_pars[1][lessonNum] = [formattedChange[0], ["Пара отменена", "", ""]];
                 } else {
                   week_pars[1][lessonNum][1] = formattedChange[1];
                 }

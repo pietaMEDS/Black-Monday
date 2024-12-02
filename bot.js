@@ -50,7 +50,7 @@ vk.updates.on('message_new', bot.middleware);
   
   bot.hear(/🎓Преподователь/i, async(context, next) => {
     if(WhatUser(context)){
-    context.send({ message: `Ф.И.О преподавателя`, keyboard: JSON.stringify({buttons:[[{action:{type:"text", label:"Назад"}, color:"secondary"}]], inline:false}) });
+    context.send({ message: `Напишите фамилию преподавателя`, keyboard: JSON.stringify({buttons:[[{action:{type:"text", label:"Назад"}, color:"secondary"}]], inline:false}) });
     }
   })
   

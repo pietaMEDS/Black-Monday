@@ -62,8 +62,7 @@ module.exports = {
 
   formatChanges: function(change){
     let doorPattern = /[А-Я]{1}[0-9]{3}/;
-    let result = []
-    result[1] = []
+    let result = [[], [[], []]]
 
     console.log(change);
 
@@ -106,7 +105,7 @@ module.exports = {
           }
           break;
         case 3:
-          let parsed = change.trim().split(`\r\n`);
+          parsed = change.trim().split(`\r\n`);
           result[1] = [[], []];
           result[0] = 3;
           if(parsed[0].slice(-2)=="--"){
@@ -137,12 +136,16 @@ module.exports = {
           }
         break;
         case 4:
+          parsed = change.trim().split(`\r\n`);
+          console.log(parsed);
           if(doorPattern.test(parsed[0].trim().slice(-4))){
             result[1][0][0] = parsed[0].trim().slice(0, -4).trim();
             result[1][0][2] = parsed[0].trim().slice(-4);
             result[1][0][1] = parsed[1].trim();
           }
           else{
+            console.log(parsed);
+            
             result[1][0][0] = parsed[0].trim();
             result[1][0][2] = undefined;
             result[1][0][1] = parsed[1].trim();
