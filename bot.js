@@ -162,6 +162,14 @@ bot.hear(/.*/, async (context) => {
       parser.output(context,'Вторая', groupName);
     }
   })
+bot.hear(/.*/, async (context) => {
+  if(teachers){
+    const teacherName = context.text;
+    teacher.getTeacher(teacherName, context);
+    teachers = false;
+  }
+});
+
   
 
 function switchGroup (msg) {

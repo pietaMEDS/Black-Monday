@@ -15,24 +15,6 @@ module.exports = {
       database: process.env.DB_NAME
     });
 
-    connection.connect((err) => {
-      if (err) {
-        console.error('Ошибка подключения: ' + err.stack);
-        return;
-      }
-      console.log('Подключено к базе данных успешно установленно');
-    });
-
-    connection.query('DELETE FROM schedule', (err, results) => {
-      if (err) {
-        console.error('Ошибка при очистке таблицы schedule: ' + err.stack);
-        connection.end();
-        return;
-      }
-      console.log('Таблица schedule очищена');
-    })
-
-
     let week_type;
     const XLSX = require("xlsx");
     const workbook = XLSX.readFile(
