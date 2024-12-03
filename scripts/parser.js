@@ -835,7 +835,7 @@ module.exports = {
               console.log(formattedChange[0] === week_pars[6][lessonNum]?.[0]);
               if (formattedChange[0] === week_pars[6][lessonNum]?.[0]) {
                 if (formattedChange[1] === undefined) {
-                  week_pars[6][lessonNum] = [formattedChange[0], ["Пара отменена", "", ""]];
+                  week_pars[6][lessonNum] = [formattedChange[0], ["Пара отменена", "", ""]];    
                 } else {
                   week_pars[6][lessonNum][1] = formattedChange[1];
                 }
