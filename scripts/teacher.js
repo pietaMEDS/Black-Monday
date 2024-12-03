@@ -1,9 +1,14 @@
+const { processAllGroups } = require('../updateData');
+
 require('dotenv').config();
 const dotenv = require('dotenv');
 dotenv.config();
 const mysql = require('mysql2');
+
 module.exports = {
-    getTeacher: function (teacherName, context) {
+    getTeacher: async function (teacherName, context) {
+        await processAllGroups();
+
         const connection = mysql.createConnection({
             host: process.env.DB_HOST,
             user: process.env.DB_USER,
@@ -68,5 +73,3 @@ module.exports = {
         });
     }
 };
-
-
